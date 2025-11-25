@@ -1,0 +1,327 @@
+body {
+    font-family: 'Noto Sans', sans-serif;
+  }
+
+h1 {
+    font-family: "Noto Sans", Arial;
+    font-size: 37px;
+    color: rgb(95, 95, 95);
+    letter-spacing: -1px;
+    word-spacing: 7px;
+	margin-top: 60px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+h2 {
+    font-family: "Noto Sans", Arial;
+    font-size: 30px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+h3 {
+    font-family: "Noto Sans", Arial;
+    font-size: 20px;
+    transform: rotate(270deg);
+    position: relative;
+    left: 100;
+}
+
+h4 {
+    font-family: "Indie Flower", Arial;
+    font-size: 18px;
+    transform: rotate(270deg);
+    position: relative;
+    left: 100;
+}
+
+h5 {
+    font-family: "Noto Sans", Arial;
+    font-size: 20px;
+}
+
+p {
+    font-family: "Noto Sans", Arial;
+    font-size: 16px;
+}
+
+li {
+    font-family: "Noto Sans", Arial;
+    font-size: 16px;
+}
+
+.prompt_title {
+    font-family: "Indie Flower", Arial;
+    font-size: 1.8vw;
+}
+
+.prompt_title_local_r {
+    font-family: "Indie Flower", Arial;
+    font-size: 1.8vw;
+	color: red;
+	font-weight: bold;
+}
+
+.prompt_title_local_b {
+    font-family: "Indie Flower", Arial;
+    font-size: 1.8vw;
+	color: blue;
+	font-weight: bold;
+}
+
+.cornflowerblue {
+    font-family: "Indie Flower", Arial;
+    font-size: 18px;
+	color: cornflowerblue;
+	font-weight: bold;
+}
+
+.skyblue {
+    font-family: "Noto Sans", Arial;
+    font-size: 18px;
+	color: skyblue;
+	font-weight: bold;
+}
+
+.lightcyan {
+    font-family: "Noto Sans", Arial;
+    font-size: 18px;
+	color: lightcyan;
+	font-weight: bold;
+}
+
+.hotpink {
+    font-family: "Noto Sans", Arial;
+    font-size: 18px;
+	color: hotpink;
+	font-weight: bold;
+}
+.gray {
+    font-family: "Noto Sans", Arial;
+    font-size: 18px;
+	color: gray;
+	font-weight: bold;
+}
+.lavenderblush {
+    font-family: "Noto Sans", Arial;
+    font-size: 18px;
+	color: lavenderblush;
+	font-weight: bold;
+}
+.cyan {
+    font-family: "Noto Sans", Arial;
+    font-size: 18px;
+	color: cyan;
+	font-weight: bold;
+}
+.black {
+    font-family: "Noto Sans", Arial;
+    font-size: 18px;
+	color: black;
+	font-weight: bold;
+}
+.tomato {
+    font-family: "Noto Sans", Arial;
+    font-size: 18px;
+	color: tomato;
+	font-weight: bold;
+}
+
+.video-label {
+    font-family: "Noto Sans", Arial;
+    font-size: 1.8vw;
+}
+
+.video-label-slides {
+    font-family: "Noto Sans", Arial;
+    font-size: 1.6vw;
+    margin-bottom: 20px;
+}
+
+.author-block {
+    font-size: 18px;
+}
+
+.author-block a {
+    color: hsl(204, 86%, 53%);
+    text-decoration: none;
+ }
+
+.conference-block {
+	font-family: "Noto Sans", Arial;
+	margin-bottom: 10px;
+	color: rgb(0, 100, 200);
+    font-size: 23px;
+	font-weight: bold;
+}
+
+.conference-block a {
+    text-decoration: none;
+ }
+ 
+.author-block a:hover {
+    text-decoration: underline;
+}
+
+.affiliations {
+    margin-top: 4px;
+	margin-bottom: 6px;
+}
+
+.publication-links{
+    width: 100%;
+    margin-top: -20px;
+}
+
+.paper-link {
+    color: rgb(0, 0, 0);
+}
+
+.link-block a {
+    text-decoration: none;
+    font-size: 22px;
+    color: rgb(0, 0, 0);
+}
+
+.link-block {
+    text-decoration: none;
+    font-size: 22px;
+    color: rgb(0, 0, 0);
+}
+
+.button {
+    padding: 16px 14px;
+    background-color: white;
+    border-radius: 24px;
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+    border: 2px solid rgb(135, 134, 134);
+}
+
+.button:hover {
+    border: 2px solid rgb(0, 0, 0);
+}
+
+.page-container {
+    width: 100%;
+    height: 100vh
+}
+
+.swiper {
+    width: 70%;
+    margin-top: 30px;
+}
+
+.swiper-wrapper {
+    height: 75%;
+}
+
+.swiper-slide img {
+    width: 100%;
+}
+
+.swiper-slide video {
+    width: 100%;
+}
+
+.intro-paragraph {
+    width: 100%;
+}
+
+.intro-paragraph p {
+    width: 100%;
+    font-size: 20px;
+}
+
+.intro-container {
+    width: 55%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+.abstract-container {
+    width: 55%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+.abstract-container p {
+    font-size: 18px;
+}
+
+.benchmark-container {
+    width: 50%;
+    margin: 0 auto;           /* <--- centers the container itself */
+    display: flex;
+    justify-content: center;  /* centers the image inside the container */
+    align-items: center;       /* vertically center if the container has height */
+}
+
+/* image responsive rules */
+.benchmark-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+.method-container {
+    width: 70%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+.swiper-slide {
+    display: flex;
+    align-items: center;
+    object-fit: contain;
+}
+
+ul.custom-list {
+    list-style-type: disc;
+    margin-top: 5px;
+    margin-bottom: 11px; 
+    margin-left: 40px;
+    padding-left: 0;
+    color: #333;
+  }
+
+ul.custom-list li {
+    padding-left: 2px; /* Adds space between bullet and text */
+    margin-bottom: 5px; 
+
+}
+
+ul.custom-list li::marker {
+    color: #8e4585;      /* Bullet color */
+    font-size: 1em;      
+}
+
+.tizer-container {
+    width: 70%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+.ack-container {
+    width: 55%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+.bib-container {
+    width: 55%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+.code-container {
+    width: 100%;
+    background-color: rgb(240, 240, 240);
+}
+
+.bib-container code {
+    color: black;
+    font-size: 16px;
+    background-color: rgb(240, 240, 240);
+}
