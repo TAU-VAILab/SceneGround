@@ -80,12 +80,12 @@
 
                 <!-- Supp Link. -->
                 <span class="link-block">
-                    <a href="" style="display: inline-block">
+                    <a href="/interactive_viewer/" style="display: inline-block">
                         <button class="button">
                             <span class="icon">
                                 <i class="fa fa-plus-square"></i>
                             </span>
-                            <span>Supplementary Material (Coming Soon)</span>
+                            <span>Supplementary Material</span>
                         </button>
                     </a>
                 </span>
@@ -105,9 +105,9 @@
             </div>
         </div>
 
-        <!-- tizer -->
-        <section class="tizer-section" width="100%">
-            <div class="tizer-container">
+        <!-- teaser -->
+        <section class="teaser-section" width="100%">
+            <div class="teaser-container">
                 <hr>
                 <div class="im_container has-text-justified" width="100%" align="center">
                     <img align="center" src="images/teaser.png" alt="Overview" width="100%">
@@ -176,7 +176,10 @@
                 <hr>
                 <h2 align="center">Alignment Results</h2>
                 <p class="has-text-justified"></p>
-                Below we show a sample of our alignment results. More results in the <a href="" target="_blank">Supplementary Material</a>.
+                Below We show sample of our and the baseline alignment results. Each visualization shows Internet image
+                in the lower half and the rendered image from the reference model in the upper half. Randomly-selected
+                samples over all scenes and considered models are provided in the <a
+                    href="/interactive_viewer/">Interactive Visualizations</a>.
                 </p>
                 <div class="swiper">
                     <!-- Additional required wrapper -->
@@ -194,7 +197,7 @@
                                                 style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
                                                 <div style="text-align: center; width:40%;">
                                                     <img src="images/results/wells_base.jpg" style="width:100%;">
-                                                    <p>Base</p>
+                                                    <p>Baseline</p>
                                                 </div>
                                                 <div style="text-align: center; width:40%;">
                                                     <img src="images/results/wells_ours.jpg" style="width:100%;">
@@ -220,7 +223,7 @@
                                                 style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
                                                 <div style="text-align: center; width:40%;">
                                                     <img src="images/results/brussel_base.jpg" style="width:100%;">
-                                                    <p>Base</p>
+                                                    <p>Baseline</p>
                                                 </div>
                                                 <div style="text-align: center; width:40%;">
                                                     <img src="images/results/brussel_ours.jpg" style="width:100%;">
@@ -246,7 +249,7 @@
                                                 style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
                                                 <div style="text-align: center; width:40%;">
                                                     <img src="images/results/freiburg_base.jpg" style="width:100%;">
-                                                    <p>Base</p>
+                                                    <p>Baseline</p>
                                                 </div>
                                                 <div style="text-align: center; width:40%;">
                                                     <img src="images/results/freiburg_ours.jpg" style="width:100%;">
@@ -273,7 +276,7 @@
                                                 style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
                                                 <div style="text-align: center; width:40%;">
                                                     <img src="images/results/bordeaux_base.jpg" style="width:100%;">
-                                                    <p>Base</p>
+                                                    <p>Baseline</p>
                                                 </div>
                                                 <div style="text-align: center; width:40%;">
                                                     <img src="images/results/bordeaux_ours.jpg" style="width:100%;">
@@ -301,7 +304,7 @@
                                                 style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
                                                 <div style="text-align: center; width:40%;">
                                                     <img src="images/results/metz_base.jpg" style="width:100%;">
-                                                    <p>Base</p>
+                                                    <p>Baseline</p>
                                                 </div>
                                                 <div style="text-align: center; width:40%;">
                                                     <img src="images/results/metz_ours.jpg" style="width:100%;">
@@ -328,6 +331,14 @@
                 </div>
 
                 <h2 style="text-align:center;">Optimization Process</h2>
+                <p>Below, we show the alignment produced by our optimization based method, aligning a partial
+                    reconstruction of the Freiburg Cathedral to a 3DGS reference model generated from Google Earth
+                    Studio.
+                    In the video, we show Four images from the partial reconstruction, the top half shows an internet
+                    image from the partial reconstruction and the bottom half is the corresponding rendering from the
+                    Gaussian Splatting model.
+                </p>
+                <br>
 
                 <div style="display:flex; justify-content:center;">
                     <video width="70%" autoplay muted loop playsinline>
@@ -343,9 +354,12 @@
                 <hr>
                 <h2 align="center">Method - Scene Grounding via Semantic Feature Optimization</h2>
                 <p class="has-text-justified">
-                    Our method is an inverse optimization approach that uses a semantic feature loss L<sub>sem</sub>,
-                    to align partial reconstructions captured in the wild with a <a
-                        href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a> reference model.
+                    The goal of our method is to align a partial reconstruction of images taken in the wild to a <a href="https://www.google.com/earth/studio/">Google
+                    Earth Studio</a> reference model. To create the reference model we create a <a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a> model from the Google
+                    Earth Studio renders with distilled DinoV2 features.
+                    During optimization, we iteratively select an image, render its corresponding feature map using the
+                    current pose estimation, calculate the Loss between the image loss and the rendered features and
+                    back-propagate it to the partial reconstruction pose orientation. We use robust optimization to allow convergence.
 
                     <br>
                     <br>
@@ -373,14 +387,14 @@
                 <hr>
                 <h2 align="center">The WikiEarth Benchmark</h2>
                 <p class="has-text-justified">
-                    In the <a>WikiEarth </a>benchmark, we augment 3D reconstructions from the <a
+                    We construct the <a>WikiEarth</a> benchmark, which includes augmented 3D reconstructions from the <a
                         href="https://www.cs.cornell.edu/projects/babel/">WikiScenes</a> dataset (meta-images)
                     with <a href="https://www.google.com/earth/studio/">Google Earth Studio</a> renderings, using human
                     supervision. The dataset includes 34 WikiScenes
                     scenes.
                 </p>
-                <div class="benchmark-container" >
-                    <img  src="images/benchmark.png" alt="Overview">
+                <div class="benchmark-container">
+                    <img src="images/benchmark.png" alt="Overview">
                 </div>
             </div>
         </section>

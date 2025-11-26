@@ -297,8 +297,8 @@ ul.custom-list li::marker {
     font-size: 1em;      
 }
 
-.tizer-container {
-    width: 70%;
+.teaser-container {
+    width: 60%;
     margin: 0 auto;
     margin-bottom: 30px;
 }
