@@ -1,0 +1,500 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/8.10.0/video-js.min.css" rel="stylesheet">
+
+    <link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Indie Flower' rel='stylesheet'>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="xdvJxvo39Ei0nahgmgXGp9DCslFea8wH789x6mmAY-A" />
+
+    <meta property="og:site_name" content="Scene Grounding" />
+    <meta property="og:type" content="video.other" />
+    <meta property="og:title" content="Scene Grounding in the Wild" />
+
+    <title>Scene Grounding in The Wild</title>
+    <link rel="icon" href="../pics/wis_logo.jpg">
+    <link rel="icon" href="images/browser_icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div class="page-container">
+        <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+        <!-- title -->
+        <h1 class="ourh1" align="center">Scene Grounding in The Wild</h1>
+
+        <!-- authors and affiliations -->
+        <section class="authors_block">
+            <div class="authors" align="center">
+                <span class="author-block"><a href="https://scholar.google.com/citations?user=K8bNGawAAAAJ&hl=en"
+                        target="_blank">Tamir Cohen</a><sup>1</sup>,</span>
+                <span class="author-block"><a href="https://scholar.google.co.il/citations?hl=iw&user=A7FWhoIAAAAJ"
+                        target="_blank">Leo Segre</a><sup>1</sup>,</span>
+                <span class="author-block"><a href="https://shay5510.github.io/" target="_blank">Shay Shomer
+                        Chai</a><sup>1</sup>,</span>
+                <span class="author-block"><a href="https://scholar.google.co.il/citations?hl=iw&user=hpItE1QAAAAJ"
+                        target="_blank">Shai Avidan</a><sup>1</sup>,</span>
+                <span class="author-block"><a href="https://www.hadarelor.com/" target="_blank">Hadar
+                        Averbuch-Elor</a><sup>2</sup></span>
+            </div>
+
+            <div class="affiliations" align="center">
+                <span class="author-block"><sup>1</sup>Tel Aviv University, </span>
+                <span class="author-block"><sup>2</sup>Cornell University</span>
+            </div>
+        </section>
+        <h2 align="center" style="font-size: 31px;">CVPR 2026</h2>
+
+        <!-- link buttons -->
+        <div class="column has-text-centered">
+            <div class="publication-links" align="center">
+
+                <!-- arxiv link -->
+                <span class="link-block">
+                    <a href="" class="paper-link" style="display: inline-block">
+                        <button class="button">
+                            <span class="icon">
+                                <i class="ai ai-arxiv"></i>
+                            </span>
+                            <span>arXiv (Coming Soon)</span>
+                        </button>
+                    </a>
+                </span>
+
+                <!-- Github Link. -->
+                <span class="link-block">
+                    <a href="" style="display: inline-block">
+                        <button class="button">
+                            <span class="icon">
+                                <i class="fa fa-github"></i>
+                            </span>
+                            <span>Code (Coming Soon)</span>
+                        </button>
+                    </a>
+                </span>
+
+                <!-- Supp Link. -->
+                <span class="link-block">
+                    <a href="/interactive_viewer/" style="display: inline-block">
+                        <button class="button">
+                            <span class="icon">
+                                <i class="fa fa-plus-square"></i>
+                            </span>
+                            <span>Interactive Visualization</span>
+                        </button>
+                    </a>
+                </span>
+
+                <!-- Dataset Link -->
+                <span class="link-block">
+                    <a href="https://huggingface.co/datasets/cornell-vailab/WikiEarth" style="display: inline-block">
+                        <button class="button">
+                            <span class="icon">
+                                <i class="fa fa-database"></i>
+                            </span>
+                            <span>Dataset</span>
+                        </button>
+                    </a>
+                </span>
+
+            </div>
+        </div>
+
+        <!-- teaser -->
+        <section class="teaser-section" width="100%">
+            <div class="teaser-container">
+                <hr>
+                <div class="im_container has-text-justified" width="100%" align="center">
+                    <img align="center" src="images/teaser.png" alt="Overview" width="100%">
+                </div>
+                <p class="has-text-justified">
+                </p>
+                <div class="attn-grid-vid-container">
+
+                </div>
+            </div>
+        </section>
+
+        <!-- intro -->
+        <section class="into-paragraph-section" width="100%">
+            <div class="intro-container has-text-justified">
+                <div class="intro-paragraph">
+                    <p>
+                        Given a partial 3D reconstruction produced by running structure from motion on Internet images
+                        capturing large-scale landmarks,
+                        such as the <span style="color: rgb(92, 214, 86);">front</span> or the <span
+                            style="color: rgb(206, 51, 207);">rear</span> façade of the Milan Cathedral depicted above,
+                        we present a
+                        technique for grounding this reconstruction in
+                        a complete 3D reference model of the scene. Reference models are constructed from
+                        pseudo-synthetic renderings extracted from Google
+                        Earth Studio. As illustrated above, our approach allows for merging partial, disjoint 3D
+                        reconstructions into a unified model.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- abstract -->
+        <section class="abstract-section" width="100%">
+            <div class="abstract-container has-text-justified">
+                <hr>
+                <h2 align="center">Abstract</h2>
+                <p class="has-text-justified">
+                    Reconstructing accurate 3D models of large-scale real-world scenes from unstructured, in-the-wild
+                    imagery remains a core challenge in computer vision, especially when the input views have little or
+                    no overlap. In such cases, existing reconstruction pipelines often produce multiple disconnected
+                    partial reconstructions or erroneously merge non-overlapping regions into overlapping geometry.
+                    In this work, we propose a framework that grounds each partial reconstruction to a complete
+                    reference model of the scene, enabling globally consistent alignment even in the absence of visual
+                    overlap.
+                    We obtain reference models from dense, geospatially accurate pseudo-synthetic renderings derived
+                    from Google Earth Studio. These renderings provide full scene coverage but differ substantially in
+                    appearance from real-world photographs. Our key insight is that, despite this significant domain
+                    gap, both domains share the same underlying scene semantics. We represent the reference model using
+                    3D Gaussian Splatting, augmenting each Gaussian with semantic features, and formulate alignment as
+                    an inverse feature-based optimization scheme that estimates a global 6DoF pose and scale while
+                    keeping the reference model fixed.
+                    Furthermore, we introduce the WikiEarth dataset, which registers existing partial 3D reconstructions
+                    with pseudo-synthetic reference models. We demonstrate that our approach consistently improves
+                    global alignment when initialized with various classical and learning-based pipelines, while
+                    mitigating failure modes of state-of-the-art end-to-end models.
+
+                </p>
+            </div>
+        </section>
+
+        <!-- slider -->
+        <!-- Slider main container -->
+        <section class="Results-section" width="100%">
+            <div class="abstract-container has-text-justified">
+                <hr>
+                <h2 style="text-align:center;">Optimization Visualization</h2>
+                <p>Below, we show the alignment produced by our optimization based method, aligning a partial
+                    reconstruction of the Freiburg Cathedral to a 3DGS reference model generated from Google Earth
+                    Studio.
+                    Four images from the partial reconstruction are provided, shown in the top half, whereas the bottom
+                    half shows the corresponding rendering from the Gaussian Splatting model. As illustrated below, our
+                    inverse optimization-based approach predicts precise transformations, even in the presence of
+                    inaccurate initializations.
+                </p>
+                <br>
+
+
+                <div class="video-container">
+                    <video id="myVideo" class="video-js vjs-default-skin" controls preload="auto" autoplay loop muted>
+                        <source src="./videos/optimization_freiburg_cathedral.mp4" type="video/mp4">
+                    </video>
+                </div>
+
+                <!-- Video.js JavaScript -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/8.10.0/video.min.js"></script>
+
+                <script>
+                    // Initialize Video.js player
+                    const player = videojs('myVideo', {
+                        controlBar: {
+                            playToggle: false,
+                            volumePanel: false,
+                            currentTimeDisplay: false,
+                            timeDivider: false,
+                            durationDisplay: false,
+                            remainingTimeDisplay: false,
+                            fullscreenToggle: false,
+                            pictureInPictureToggle: false
+
+                        }
+                    });
+                    // Disable pause on click
+                    player.on('pause', function () {
+                        player.play();
+                    });
+
+                    // Prevent click from pausing
+                    player.tech_.off('click');
+                </script>
+                <br>
+                <hr>
+                <h2 align="center">Alignment Visualization</h2>
+                <p class="has-text-justified"></p>
+                Below we provide a sample of the alignment results, before and after our optimization scheme. Each
+                visualization shows the input Internet image in the lower half and the rendered image from the reference
+                model in the upper half. The initialization is achieved with COLMAP. Randomly-selected samples over all
+                scenes and considered baseline models are provided in the <a href="/interactive_viewer/">Interactive
+                    Visualizations</a>.
+                </p>
+                <div class="swiper">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <table class="slide-table" width="100%" align="center">
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2" width="90%" class="prompt_title_local" align="center">Wells
+                                            Cathedral</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div
+                                                style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                                                <div style="text-align: center; width:40%;">
+                                                    <img src="images/results/wells_base.jpg" style="width:100%;">
+                                                    <p>Initialization</p>
+                                                </div>
+                                                <div style="text-align: center; width:40%;">
+                                                    <img src="images/results/wells_ours.jpg" style="width:100%;">
+                                                    <p>Initialization + Ours</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="swiper-slide">
+                            <table class="slide-table" width="100%" align="center">
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2" width="90%" class="prompt_title_local" align="center">Brussels
+                                            Cathedral
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div
+                                                style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                                                <div style="text-align: center; width:40%;">
+                                                    <img src="images/results/brussel_base.jpg" style="width:100%;">
+                                                    <p>Initialization</p>
+                                                </div>
+                                                <div style="text-align: center; width:40%;">
+                                                    <img src="images/results/brussel_ours.jpg" style="width:100%;">
+                                                    <p>Initialization + Ours</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="swiper-slide">
+                            <table class="slide-table" width="100%" align="center">
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2" width="90%" class="prompt_title_local" align="center">Freiburg
+                                            Cathedral
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div
+                                                style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                                                <div style="text-align: center; width:40%;">
+                                                    <img src="images/results/freiburg_base.jpg" style="width:100%;">
+                                                    <p>Initialization</p>
+                                                </div>
+                                                <div style="text-align: center; width:40%;">
+                                                    <img src="images/results/freiburg_ours.jpg" style="width:100%;">
+                                                    <p>Initialization + Ours</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Slide: Bordeaux -->
+                        <div class="swiper-slide">
+                            <table class="slide-table" width="100%" align="center">
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2" width="90%" class="prompt_title_local" align="center">Bordeaux
+                                            Cathedral
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div
+                                                style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                                                <div style="text-align: center; width:40%;">
+                                                    <img src="images/results/bordeaux_base.jpg" style="width:100%;">
+                                                    <p>Initialization</p>
+                                                </div>
+                                                <div style="text-align: center; width:40%;">
+                                                    <img src="images/results/bordeaux_ours.jpg" style="width:100%;">
+                                                    <p>Initialization + Ours</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                        <div class="swiper-slide">
+                            <table class="slide-table" width="100%" align="center">
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2" width="90%" class="prompt_title_local" align="center">Metz
+                                            Cathedral</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div
+                                                style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                                                <div style="text-align: center; width:40%;">
+                                                    <img src="images/results/metz_base.jpg" style="width:100%;">
+                                                    <p>Initialization</p>
+                                                </div>
+                                                <div style="text-align: center; width:40%;">
+                                                    <img src="images/results/metz_ours.jpg" style="width:100%;">
+                                                    <p>Initialization + Ours</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Slide: Wells -->
+
+                    </div>
+
+                    <div style="margin-top: 20px;"></div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+
+                    <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+
+        </section>
+
+        <!-- method -->
+        <section class="method-section">
+            <div class="method-container">
+                <hr>
+                <h2 align="center">How Does it Work?</h2>
+                <p class="has-text-justified"> Given a <a
+                        href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a> reference model (left)
+                    and a set of Internet
+                    images (right), we propose an inverse optimization scheme that predicts a global
+                    6DoF+scale alignment T while keeping the parameters of 3DGS model fixed. We obtain an initial
+                    transformation T (in red) using a traditional SfM technique. During optimization, we calculate a
+                    semantic feature loss L<sub>sem</sub> and backpropagate it to update T (converging to the rendered
+                    view in green after N steps). </p>
+                <br>
+                <div class="im_container has-text-justified" width="100%" align="center">
+                    <img align="center" src="images/method.png" alt="Method">
+                </div>
+                <br>
+                <div class="attn-grid-vid-container">
+
+                </div>
+            </div>
+        </section>
+        <!-- method -->
+        <section class="method-section" width="70%">
+            <div class="method-container">
+                <hr>
+                <h2 align="center">The WikiEarth Benchmark</h2>
+                <p class="has-text-justified">
+                    We construct the <a>WikiEarth</a> benchmark, which includes augmented 3D reconstructions from the <a
+                        href="https://www.cs.cornell.edu/projects/babel/">WikiScenes</a> dataset (meta-images)
+                    with <a href="https://www.google.com/earth/studio/">Google Earth Studio</a> renderings. The dataset
+                    includes 34 partial reconstructions (meta images) from 24 different scenes. Reconstruction of four
+                    landmarks from our benchmark are provided below. The blue frustums
+                    depicts the rendered images from Google Earth Studio, and the red frustums the images from
+                    WikiScenes.
+                </p>
+                <div class="benchmark-container">
+                    <img src="images/benchmark.png" alt="Overview">
+                </div>
+            </div>
+        </section>
+
+        <section class="results-section">
+            <div class="results-container">
+                <hr>
+                <h2 align="center">Results</h2>
+                <p class="has-text-justified">
+                    Below we compare performance on the WikiEarth benchmark against multiple
+                    baselines. We report the average rotation and translation errors
+                    (ΔR, ΔT) across all meta-images, the Meta-image Transformation Accuracy (MTA),
+                    and the percentage of alignment outlier (O%).
+
+                    We compare our method to the <a
+                        href="https://openaccess.thecvf.com/content_cvpr_2016/papers/Schonberger_Structure-From-Motion_Revisited_CVPR_2016_paper.pdf">COLMAP</a>
+                    baseline, to a SfM pipeline that uses
+                    <a href="https://arxiv.org/abs/1712.07629">SuperPoint</a> as the feature extractor
+                    and <a href="https://arxiv.org/abs/2306.13643">LightGlue</a> as the feature matcher (SP+LG),
+                    and to the distributed camera-model SfM method
+                    <a href="https://arxiv.org/abs/1607.03949">gDLS+++</a>.
+                    Additional details are provided in the paper Experiments section.
+
+                <br>
+                <br>
+                <div class="results-table-container">
+                    <div class="tab-pane fade" id="graph2">
+                        <img src="./images/tables/comparison_methods.png" alt="Comparison with Baselines"
+                            class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BibTex -->
+            <section class="bib-section" width="100%">
+                <div class="bib-container">
+                    <hr>
+                    <h2 align="center">BibTeX</h2>
+                    <div class="code-container">
+                        <code>
+                </code>
+                    </div>
+                </div>
+            </section>
+
+            <p><br>
+            </p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+
+    </div>
+    <script>
+        const swiper = new Swiper('.swiper', {
+            autoplay: {
+                delay: 4000,
+            },
+            // Optional parameters
+            speed: 1000,
+            loop: true,
+
+            // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    </script>
+
+</body>
+
+</html>

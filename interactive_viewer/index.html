@@ -1,0 +1,2566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Viewer</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+
+    select {
+      margin-right: 10px;
+      padding: 5px;
+    }
+
+    canvas {
+      margin-top: 10px;
+      border: 1px solid #ccc;
+    }
+
+    #imageDisplay {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .image-container {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .image-container p {
+      margin: 0 0 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div style="text-align: center;">
+      <h1>Scene Grounding in the Wild Visualizations</h1>
+      <p style="font-size: 16px;">Below we show results of all baseline models (before and after our inverse optimization scheme) discussed in our paper, over images from our WikiEarth benchmark. For each meta image, we sample random images (same across all methods). Each visualization shows the randomly-selected Internet image in the upper half and the rendered image from the reference model in the bottom half. We also show the ground-truth alignment (select GT below). Select the meta image and model that you would like to view.</p>
+  </div>
+
+  <label for="cathedralSelect">Cathedral:</label>
+  <select id="cathedralSelect"></select>
+
+  <label for="colmapSelect">Meta Image ID:</label>
+  <select id="colmapSelect"></select>
+
+  <label for="methodSelect">Method:</label>
+  <select id="methodSelect"></select>
+
+  <div id="imageDisplay"></div>
+
+  <script>
+    // PREPOPULATED STRUCTURE BASED ON DIRECTORY WALK
+    const imageIndex = {
+  "55": {
+    "2": {
+      "colmap": [
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00006.jpg",
+        "frame_00130.jpg",
+        "frame_00160.jpg",
+        "frame_00180.jpg",
+        "frame_00183.jpg",
+        "frame_00185.jpg",
+        "frame_00188.jpg",
+        "frame_00193.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00006.jpg",
+        "frame_00130.jpg",
+        "frame_00160.jpg",
+        "frame_00180.jpg",
+        "frame_00183.jpg",
+        "frame_00185.jpg",
+        "frame_00188.jpg",
+        "frame_00193.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00006.jpg",
+        "frame_00130.jpg",
+        "frame_00160.jpg",
+        "frame_00180.jpg",
+        "frame_00183.jpg",
+        "frame_00185.jpg",
+        "frame_00188.jpg",
+        "frame_00193.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00006.jpg",
+        "frame_00130.jpg",
+        "frame_00160.jpg",
+        "frame_00180.jpg",
+        "frame_00183.jpg",
+        "frame_00185.jpg",
+        "frame_00188.jpg",
+        "frame_00193.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00006.jpg",
+        "frame_00130.jpg",
+        "frame_00160.jpg",
+        "frame_00180.jpg",
+        "frame_00183.jpg",
+        "frame_00185.jpg",
+        "frame_00188.jpg",
+        "frame_00193.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00006.jpg",
+        "frame_00130.jpg",
+        "frame_00160.jpg",
+        "frame_00180.jpg",
+        "frame_00183.jpg",
+        "frame_00185.jpg",
+        "frame_00188.jpg",
+        "frame_00193.jpg"
+      ],
+      "gt": [
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00180.jpg",
+        "frame_00183.jpg",
+        "frame_00185.jpg",
+        "frame_00188.jpg",
+        "frame_00193.jpg",
+        "frame_00194.jpg",
+        "frame_00195.jpg",
+        "frame_00205.jpg"
+      ]
+    }
+  },
+  "75": {
+    "0": {
+      "colmap": [
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg"
+      ],
+      "gt": [
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00021.jpg"
+      ]
+    }
+  },
+  "93": {
+    "4": {
+      "colmap": [
+        "frame_00411.jpg",
+        "frame_00418.jpg",
+        "frame_00421.jpg",
+        "frame_00422.jpg",
+        "frame_00424.jpg",
+        "frame_00425.jpg",
+        "frame_00426.jpg",
+        "frame_00427.jpg",
+        "frame_00430.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00411.jpg",
+        "frame_00418.jpg",
+        "frame_00421.jpg",
+        "frame_00422.jpg",
+        "frame_00424.jpg",
+        "frame_00425.jpg",
+        "frame_00426.jpg",
+        "frame_00427.jpg",
+        "frame_00430.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00411.jpg",
+        "frame_00418.jpg",
+        "frame_00421.jpg",
+        "frame_00422.jpg",
+        "frame_00424.jpg",
+        "frame_00425.jpg",
+        "frame_00426.jpg",
+        "frame_00427.jpg",
+        "frame_00430.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00411.jpg",
+        "frame_00418.jpg",
+        "frame_00421.jpg",
+        "frame_00422.jpg",
+        "frame_00424.jpg",
+        "frame_00425.jpg",
+        "frame_00426.jpg",
+        "frame_00427.jpg",
+        "frame_00430.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00411.jpg",
+        "frame_00418.jpg",
+        "frame_00421.jpg",
+        "frame_00422.jpg",
+        "frame_00424.jpg",
+        "frame_00425.jpg",
+        "frame_00426.jpg",
+        "frame_00427.jpg",
+        "frame_00430.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00411.jpg",
+        "frame_00418.jpg",
+        "frame_00421.jpg",
+        "frame_00422.jpg",
+        "frame_00424.jpg",
+        "frame_00425.jpg",
+        "frame_00426.jpg",
+        "frame_00427.jpg",
+        "frame_00430.jpg"
+      ],
+      "gt": [
+        "frame_00418.jpg",
+        "frame_00421.jpg",
+        "frame_00422.jpg",
+        "frame_00424.jpg",
+        "frame_00425.jpg",
+        "frame_00426.jpg",
+        "frame_00427.jpg",
+        "frame_00432.jpg",
+        "frame_00434.jpg"
+      ]
+    }
+  },
+  "46": {
+    "1": {
+      "colmap": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00004.jpg",
+        "frame_00005.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00018.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00004.jpg",
+        "frame_00005.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00018.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00004.jpg",
+        "frame_00005.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00018.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00004.jpg",
+        "frame_00005.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00018.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00004.jpg",
+        "frame_00005.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00018.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00004.jpg",
+        "frame_00005.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00018.jpg"
+      ],
+      "gt": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00004.jpg",
+        "frame_00005.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00018.jpg",
+        "frame_00021.jpg"
+      ]
+    },
+    "0": {
+      "colmap": [
+        "frame_00043.jpg",
+        "frame_00045.jpg",
+        "frame_00046.jpg",
+        "frame_00047.jpg",
+        "frame_00048.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00052.jpg",
+        "frame_00054.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform": [
+        "frame_00043.jpg",
+        "frame_00045.jpg",
+        "frame_00046.jpg",
+        "frame_00047.jpg",
+        "frame_00048.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00052.jpg",
+        "frame_00054.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00043.jpg",
+        "frame_00045.jpg",
+        "frame_00046.jpg",
+        "frame_00047.jpg",
+        "frame_00048.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00052.jpg",
+        "frame_00054.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00043.jpg",
+        "frame_00045.jpg",
+        "frame_00046.jpg",
+        "frame_00047.jpg",
+        "frame_00048.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00052.jpg",
+        "frame_00054.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00043.jpg",
+        "frame_00045.jpg",
+        "frame_00046.jpg",
+        "frame_00047.jpg",
+        "frame_00048.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00052.jpg",
+        "frame_00054.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00043.jpg",
+        "frame_00045.jpg",
+        "frame_00046.jpg",
+        "frame_00047.jpg",
+        "frame_00048.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00052.jpg",
+        "frame_00054.jpg"
+      ],
+      "gt": [
+        "frame_00043.jpg",
+        "frame_00045.jpg",
+        "frame_00046.jpg",
+        "frame_00047.jpg",
+        "frame_00048.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00052.jpg",
+        "frame_00056.jpg"
+      ]
+    }
+  },
+  "20": {
+    "16": {
+      "colmap": [
+        "frame_00033.jpg",
+        "frame_00046.jpg",
+        "frame_00060.jpg",
+        "frame_00084.jpg",
+        "frame_00105.jpg",
+        "frame_00119.jpg",
+        "frame_00124.jpg",
+        "frame_00229.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00033.jpg",
+        "frame_00046.jpg",
+        "frame_00060.jpg",
+        "frame_00084.jpg",
+        "frame_00105.jpg",
+        "frame_00119.jpg",
+        "frame_00124.jpg",
+        "frame_00229.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00033.jpg",
+        "frame_00046.jpg",
+        "frame_00060.jpg",
+        "frame_00084.jpg",
+        "frame_00105.jpg",
+        "frame_00119.jpg",
+        "frame_00124.jpg",
+        "frame_00229.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00033.jpg",
+        "frame_00046.jpg",
+        "frame_00060.jpg",
+        "frame_00084.jpg",
+        "frame_00105.jpg",
+        "frame_00119.jpg",
+        "frame_00124.jpg",
+        "frame_00229.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00033.jpg",
+        "frame_00046.jpg",
+        "frame_00060.jpg",
+        "frame_00084.jpg",
+        "frame_00105.jpg",
+        "frame_00119.jpg",
+        "frame_00124.jpg",
+        "frame_00229.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00033.jpg",
+        "frame_00046.jpg",
+        "frame_00060.jpg",
+        "frame_00084.jpg",
+        "frame_00105.jpg",
+        "frame_00119.jpg",
+        "frame_00124.jpg",
+        "frame_00229.jpg"
+      ],
+      "gt": [
+        "frame_00033.jpg",
+        "frame_00060.jpg",
+        "frame_00084.jpg",
+        "frame_00105.jpg",
+        "frame_00119.jpg",
+        "frame_00124.jpg",
+        "frame_00229.jpg"
+      ]
+    },
+    "15": {
+      "colmap": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00098.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00098.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00098.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00098.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00098.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00098.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg"
+      ],
+      "gt": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg",
+        "frame_00168.jpg"
+      ]
+    },
+    "0": {
+      "colmap": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00004.jpg",
+        "frame_00006.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg"
+      ],
+      "gt": [
+        "frame_00001.jpg",
+        "frame_00002.jpg",
+        "frame_00003.jpg",
+        "frame_00004.jpg",
+        "frame_00007.jpg",
+        "frame_00009.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00015.jpg",
+        "frame_00018.jpg"
+      ]
+    },
+    "13": {
+      "colmap": [
+        "frame_00040.jpg",
+        "frame_00046.jpg",
+        "frame_00060.jpg",
+        "frame_00070.jpg",
+        "frame_00084.jpg",
+        "frame_00102.jpg",
+        "frame_00106.jpg",
+        "frame_00108.jpg",
+        "frame_00110.jpg",
+        "frame_00111.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00040.jpg",
+        "frame_00046.jpg",
+        "frame_00060.jpg",
+        "frame_00070.jpg",
+        "frame_00084.jpg",
+        "frame_00102.jpg",
+        "frame_00106.jpg",
+        "frame_00108.jpg",
+        "frame_00110.jpg",
+        "frame_00111.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00040.jpg",
+        "frame_00046.jpg",
+        "frame_00060.jpg",
+        "frame_00070.jpg",
+        "frame_00084.jpg",
+        "frame_00102.jpg",
+        "frame_00106.jpg",
+        "frame_00108.jpg",
+        "frame_00110.jpg",
+        "frame_00111.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00040.jpg",
+        "frame_00046.jpg",
+        "frame_00060.jpg",
+        "frame_00070.jpg",
+        "frame_00084.jpg",
+        "frame_00102.jpg",
+        "frame_00106.jpg",
+        "frame_00108.jpg",
+        "frame_00110.jpg",
+        "frame_00111.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00040.jpg",
+        "frame_00046.jpg",
+        "frame_00060.jpg",
+        "frame_00070.jpg",
+        "frame_00084.jpg",
+        "frame_00102.jpg",
+        "frame_00106.jpg",
+        "frame_00108.jpg",
+        "frame_00110.jpg",
+        "frame_00111.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00040.jpg",
+        "frame_00046.jpg",
+        "frame_00060.jpg",
+        "frame_00070.jpg",
+        "frame_00084.jpg",
+        "frame_00102.jpg",
+        "frame_00106.jpg",
+        "frame_00108.jpg",
+        "frame_00110.jpg",
+        "frame_00111.jpg"
+      ],
+      "gt": [
+        "frame_00040.jpg",
+        "frame_00060.jpg",
+        "frame_00070.jpg",
+        "frame_00084.jpg",
+        "frame_00106.jpg",
+        "frame_00108.jpg",
+        "frame_00124.jpg"
+      ]
+    },
+    "14": {
+      "colmap": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00098.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00098.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00098.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00098.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00098.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00098.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg"
+      ],
+      "gt": [
+        "frame_00050.jpg",
+        "frame_00071.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00107.jpg",
+        "frame_00113.jpg",
+        "frame_00148.jpg",
+        "frame_00150.jpg",
+        "frame_00161.jpg",
+        "frame_00168.jpg"
+      ]
+    }
+  },
+  "50": {
+    "1": {
+      "colmap": [
+        "frame_00361.jpg",
+        "frame_00362.jpg",
+        "frame_00363.jpg",
+        "frame_00364.jpg",
+        "frame_00365.jpg",
+        "frame_00366.jpg",
+        "frame_00368.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00361.jpg",
+        "frame_00362.jpg",
+        "frame_00363.jpg",
+        "frame_00364.jpg",
+        "frame_00365.jpg",
+        "frame_00366.jpg",
+        "frame_00368.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00361.jpg",
+        "frame_00362.jpg",
+        "frame_00363.jpg",
+        "frame_00364.jpg",
+        "frame_00365.jpg",
+        "frame_00366.jpg",
+        "frame_00368.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00361.jpg",
+        "frame_00362.jpg",
+        "frame_00363.jpg",
+        "frame_00364.jpg",
+        "frame_00365.jpg",
+        "frame_00366.jpg",
+        "frame_00368.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00361.jpg",
+        "frame_00362.jpg",
+        "frame_00363.jpg",
+        "frame_00364.jpg",
+        "frame_00365.jpg",
+        "frame_00366.jpg",
+        "frame_00368.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00361.jpg",
+        "frame_00362.jpg",
+        "frame_00363.jpg",
+        "frame_00364.jpg",
+        "frame_00365.jpg",
+        "frame_00366.jpg",
+        "frame_00368.jpg"
+      ],
+      "gt": [
+        "frame_00361.jpg",
+        "frame_00362.jpg",
+        "frame_00363.jpg",
+        "frame_00364.jpg",
+        "frame_00365.jpg",
+        "frame_00366.jpg",
+        "frame_00368.jpg"
+      ]
+    }
+  },
+  "36": {
+    "10": {
+      "colmap": [
+        "frame_00052.jpg",
+        "frame_00055.jpg",
+        "frame_00130.jpg",
+        "frame_00132.jpg",
+        "frame_00149.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform": [
+        "frame_00052.jpg",
+        "frame_00055.jpg",
+        "frame_00130.jpg",
+        "frame_00132.jpg",
+        "frame_00149.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00052.jpg",
+        "frame_00055.jpg",
+        "frame_00130.jpg",
+        "frame_00132.jpg",
+        "frame_00149.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00052.jpg",
+        "frame_00055.jpg",
+        "frame_00130.jpg",
+        "frame_00132.jpg",
+        "frame_00149.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00052.jpg",
+        "frame_00055.jpg",
+        "frame_00130.jpg",
+        "frame_00132.jpg",
+        "frame_00149.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00052.jpg",
+        "frame_00055.jpg",
+        "frame_00130.jpg",
+        "frame_00132.jpg",
+        "frame_00149.jpg"
+      ],
+      "gt": [
+        "frame_00052.jpg",
+        "frame_00055.jpg",
+        "frame_00130.jpg",
+        "frame_00132.jpg",
+        "frame_00149.jpg",
+        "frame_00172.jpg"
+      ]
+    }
+  },
+  "56": {
+    "1": {
+      "colmap": [
+        "frame_00230.jpg",
+        "frame_00237.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform": [
+        "frame_00230.jpg",
+        "frame_00237.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00230.jpg",
+        "frame_00237.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00230.jpg",
+        "frame_00237.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00230.jpg",
+        "frame_00237.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00230.jpg",
+        "frame_00237.jpg"
+      ],
+      "gt": [
+        "frame_00230.jpg",
+        "frame_00237.jpg"
+      ]
+    }
+  },
+  "61": {
+    "3": {
+      "colmap": [
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00093.jpg",
+        "frame_00094.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg",
+        "frame_00100.jpg",
+        "frame_00106.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00093.jpg",
+        "frame_00094.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg",
+        "frame_00100.jpg",
+        "frame_00106.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00093.jpg",
+        "frame_00094.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg",
+        "frame_00100.jpg",
+        "frame_00106.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00093.jpg",
+        "frame_00094.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg",
+        "frame_00100.jpg",
+        "frame_00106.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00093.jpg",
+        "frame_00094.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg",
+        "frame_00100.jpg",
+        "frame_00106.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00093.jpg",
+        "frame_00094.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg",
+        "frame_00100.jpg",
+        "frame_00106.jpg"
+      ],
+      "gt": [
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg",
+        "frame_00100.jpg",
+        "frame_00109.jpg",
+        "frame_00110.jpg",
+        "frame_00114.jpg"
+      ]
+    },
+    "0": {
+      "colmap": [
+        "frame_00088.jpg",
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00093.jpg",
+        "frame_00095.jpg",
+        "frame_00096.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00088.jpg",
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00093.jpg",
+        "frame_00095.jpg",
+        "frame_00096.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00088.jpg",
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00093.jpg",
+        "frame_00095.jpg",
+        "frame_00096.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00088.jpg",
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00093.jpg",
+        "frame_00095.jpg",
+        "frame_00096.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00088.jpg",
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00093.jpg",
+        "frame_00095.jpg",
+        "frame_00096.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00088.jpg",
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00093.jpg",
+        "frame_00095.jpg",
+        "frame_00096.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg"
+      ],
+      "gt": [
+        "frame_00088.jpg",
+        "frame_00089.jpg",
+        "frame_00090.jpg",
+        "frame_00091.jpg",
+        "frame_00092.jpg",
+        "frame_00095.jpg",
+        "frame_00096.jpg",
+        "frame_00097.jpg",
+        "frame_00098.jpg",
+        "frame_00099.jpg"
+      ]
+    }
+  },
+  "54": {
+    "0": {
+      "colmap": [
+        "frame_00023.jpg",
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00027.jpg",
+        "frame_00028.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00023.jpg",
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00027.jpg",
+        "frame_00028.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00023.jpg",
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00027.jpg",
+        "frame_00028.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00023.jpg",
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00027.jpg",
+        "frame_00028.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00023.jpg",
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00027.jpg",
+        "frame_00028.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00023.jpg",
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00027.jpg",
+        "frame_00028.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg"
+      ],
+      "gt": [
+        "frame_00068.jpg",
+        "frame_00070.jpg",
+        "frame_00072.jpg",
+        "frame_00073.jpg",
+        "frame_00074.jpg",
+        "frame_00075.jpg",
+        "frame_00078.jpg",
+        "frame_00079.jpg",
+        "frame_00084.jpg",
+        "frame_00085.jpg"
+      ]
+    }
+  },
+  "33": {
+    "0": {
+      "colmap": [
+        "frame_00013.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00020.jpg",
+        "frame_00022.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform": [
+        "frame_00013.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00020.jpg",
+        "frame_00022.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00013.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00020.jpg",
+        "frame_00022.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00013.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00020.jpg",
+        "frame_00022.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00013.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00020.jpg",
+        "frame_00022.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00013.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00020.jpg",
+        "frame_00022.jpg"
+      ],
+      "gt": [
+        "frame_00013.jpg",
+        "frame_00016.jpg",
+        "frame_00020.jpg",
+        "frame_00022.jpg"
+      ]
+    }
+  },
+  "37": {
+    "7": {
+      "colmap": [
+        "frame_00109.jpg",
+        "frame_00249.jpg",
+        "frame_00250.jpg",
+        "frame_00263.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform": [
+        "frame_00109.jpg",
+        "frame_00249.jpg",
+        "frame_00250.jpg",
+        "frame_00263.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00109.jpg",
+        "frame_00249.jpg",
+        "frame_00250.jpg",
+        "frame_00263.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00109.jpg",
+        "frame_00249.jpg",
+        "frame_00250.jpg",
+        "frame_00263.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00109.jpg",
+        "frame_00249.jpg",
+        "frame_00250.jpg",
+        "frame_00263.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00109.jpg",
+        "frame_00249.jpg",
+        "frame_00250.jpg",
+        "frame_00263.jpg"
+      ],
+      "gt": [
+        "frame_00249.jpg",
+        "frame_00250.jpg",
+        "frame_00263.jpg"
+      ]
+    },
+    "8": {
+      "colmap": [
+        "frame_00158.jpg",
+        "frame_00173.jpg",
+        "frame_00195.jpg",
+        "frame_00196.jpg",
+        "frame_00197.jpg",
+        "frame_00198.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform": [
+        "frame_00158.jpg",
+        "frame_00173.jpg",
+        "frame_00195.jpg",
+        "frame_00196.jpg",
+        "frame_00197.jpg",
+        "frame_00198.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00158.jpg",
+        "frame_00173.jpg",
+        "frame_00195.jpg",
+        "frame_00196.jpg",
+        "frame_00197.jpg",
+        "frame_00198.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00158.jpg",
+        "frame_00173.jpg",
+        "frame_00195.jpg",
+        "frame_00196.jpg",
+        "frame_00197.jpg",
+        "frame_00198.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00158.jpg",
+        "frame_00173.jpg",
+        "frame_00195.jpg",
+        "frame_00196.jpg",
+        "frame_00197.jpg",
+        "frame_00198.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00158.jpg",
+        "frame_00173.jpg",
+        "frame_00195.jpg",
+        "frame_00196.jpg",
+        "frame_00197.jpg",
+        "frame_00198.jpg"
+      ],
+      "gt": [
+        "frame_00158.jpg",
+        "frame_00173.jpg",
+        "frame_00195.jpg",
+        "frame_00196.jpg",
+        "frame_00197.jpg",
+        "frame_00198.jpg"
+      ]
+    }
+  },
+  "52": {
+    "2": {
+      "colmap": [
+        "frame_00052.jpg",
+        "frame_00053.jpg",
+        "frame_00054.jpg",
+        "frame_00057.jpg",
+        "frame_00074.jpg",
+        "frame_00094.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform": [
+        "frame_00052.jpg",
+        "frame_00053.jpg",
+        "frame_00054.jpg",
+        "frame_00057.jpg",
+        "frame_00074.jpg",
+        "frame_00094.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00052.jpg",
+        "frame_00053.jpg",
+        "frame_00054.jpg",
+        "frame_00057.jpg",
+        "frame_00074.jpg",
+        "frame_00094.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00052.jpg",
+        "frame_00053.jpg",
+        "frame_00054.jpg",
+        "frame_00057.jpg",
+        "frame_00074.jpg",
+        "frame_00094.jpg"
+      ],
+      "gt": [
+        "frame_00052.jpg",
+        "frame_00053.jpg",
+        "frame_00054.jpg",
+        "frame_00057.jpg",
+        "frame_00074.jpg",
+        "frame_00094.jpg"
+      ]
+    },
+    "11": {
+      "colmap": [
+        "frame_00026.jpg",
+        "frame_00027.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg",
+        "frame_00034.jpg",
+        "frame_00035.jpg",
+        "frame_00036.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform": [
+        "frame_00026.jpg",
+        "frame_00027.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg",
+        "frame_00034.jpg",
+        "frame_00035.jpg",
+        "frame_00036.jpg"
+      ],
+      "gt": [
+        "frame_00026.jpg",
+        "frame_00027.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg",
+        "frame_00034.jpg",
+        "frame_00035.jpg",
+        "frame_00036.jpg"
+      ]
+    }
+  },
+  "43": {
+    "1": {
+      "colmap": [
+        "frame_00022.jpg",
+        "frame_00023.jpg",
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00064.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform": [
+        "frame_00022.jpg",
+        "frame_00023.jpg",
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00064.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00022.jpg",
+        "frame_00023.jpg",
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00064.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00022.jpg",
+        "frame_00023.jpg",
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00064.jpg"
+      ],
+      "gt": [
+        "frame_00022.jpg",
+        "frame_00023.jpg",
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00064.jpg"
+      ]
+    }
+  },
+  "53": {
+    "0": {
+      "colmap": [
+        "frame_00069.jpg",
+        "frame_00079.jpg",
+        "frame_00098.jpg",
+        "frame_00101.jpg",
+        "frame_00102.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform": [
+        "frame_00069.jpg",
+        "frame_00079.jpg",
+        "frame_00098.jpg",
+        "frame_00101.jpg",
+        "frame_00102.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00069.jpg",
+        "frame_00079.jpg",
+        "frame_00098.jpg",
+        "frame_00101.jpg",
+        "frame_00102.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00069.jpg",
+        "frame_00079.jpg",
+        "frame_00098.jpg",
+        "frame_00101.jpg",
+        "frame_00102.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00069.jpg",
+        "frame_00079.jpg",
+        "frame_00098.jpg",
+        "frame_00101.jpg",
+        "frame_00102.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00069.jpg",
+        "frame_00079.jpg",
+        "frame_00098.jpg",
+        "frame_00101.jpg",
+        "frame_00102.jpg"
+      ],
+      "gt": [
+        "frame_00069.jpg",
+        "frame_00079.jpg",
+        "frame_00098.jpg",
+        "frame_00101.jpg",
+        "frame_00102.jpg"
+      ]
+    }
+  },
+  "27": {
+    "0": {
+      "colmap": [
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg",
+        "frame_00014.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00017.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg",
+        "frame_00014.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00017.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg",
+        "frame_00014.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00017.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg",
+        "frame_00014.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00017.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg",
+        "frame_00014.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00017.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg",
+        "frame_00014.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00017.jpg"
+      ],
+      "gt": [
+        "frame_00008.jpg",
+        "frame_00009.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00012.jpg",
+        "frame_00013.jpg",
+        "frame_00014.jpg",
+        "frame_00015.jpg",
+        "frame_00016.jpg",
+        "frame_00020.jpg"
+      ]
+    }
+  },
+  "10": {
+    "0": {
+      "colmap": [
+        "frame_00018.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg",
+        "frame_00036.jpg",
+        "frame_00045.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform": [
+        "frame_00018.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg",
+        "frame_00036.jpg",
+        "frame_00045.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00018.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg",
+        "frame_00036.jpg",
+        "frame_00045.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00018.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg",
+        "frame_00036.jpg",
+        "frame_00045.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00018.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg",
+        "frame_00036.jpg",
+        "frame_00045.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00018.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg",
+        "frame_00036.jpg",
+        "frame_00045.jpg"
+      ],
+      "gt": [
+        "frame_00018.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg",
+        "frame_00036.jpg",
+        "frame_00045.jpg"
+      ]
+    }
+  },
+  "21": {
+    "1": {
+      "colmap": [
+        "frame_00019.jpg",
+        "frame_00034.jpg",
+        "frame_00050.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00019.jpg",
+        "frame_00034.jpg",
+        "frame_00050.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00019.jpg",
+        "frame_00034.jpg",
+        "frame_00050.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00019.jpg",
+        "frame_00034.jpg",
+        "frame_00050.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00019.jpg",
+        "frame_00034.jpg",
+        "frame_00050.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00019.jpg",
+        "frame_00034.jpg",
+        "frame_00050.jpg"
+      ],
+      "gt": []
+    }
+  },
+  "97": {
+    "1": {
+      "colmap": [
+        "frame_00004.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00004.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00004.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00004.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00004.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00004.jpg",
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00025.jpg",
+        "frame_00026.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg"
+      ],
+      "gt": [
+        "frame_00010.jpg",
+        "frame_00011.jpg",
+        "frame_00026.jpg",
+        "frame_00029.jpg",
+        "frame_00030.jpg",
+        "frame_00031.jpg",
+        "frame_00032.jpg",
+        "frame_00033.jpg",
+        "frame_00037.jpg"
+      ]
+    }
+  },
+  "85": {
+    "2": {
+      "colmap": [
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00051.jpg",
+        "frame_00052.jpg",
+        "frame_00053.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00051.jpg",
+        "frame_00052.jpg",
+        "frame_00053.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00051.jpg",
+        "frame_00052.jpg",
+        "frame_00053.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00051.jpg",
+        "frame_00052.jpg",
+        "frame_00053.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00051.jpg",
+        "frame_00052.jpg",
+        "frame_00053.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00051.jpg",
+        "frame_00052.jpg",
+        "frame_00053.jpg"
+      ],
+      "gt": [
+        "frame_00024.jpg",
+        "frame_00025.jpg",
+        "frame_00049.jpg",
+        "frame_00050.jpg",
+        "frame_00051.jpg",
+        "frame_00052.jpg",
+        "frame_00053.jpg"
+      ]
+    },
+    "1": {
+      "colmap": [
+        "frame_00128.jpg",
+        "frame_00131.jpg",
+        "frame_00135.jpg",
+        "frame_00138.jpg",
+        "frame_00139.jpg",
+        "frame_00140.jpg",
+        "frame_00141.jpg",
+        "frame_00142.jpg",
+        "frame_00143.jpg",
+        "frame_00146.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00128.jpg",
+        "frame_00131.jpg",
+        "frame_00135.jpg",
+        "frame_00138.jpg",
+        "frame_00139.jpg",
+        "frame_00140.jpg",
+        "frame_00141.jpg",
+        "frame_00142.jpg",
+        "frame_00143.jpg",
+        "frame_00146.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00128.jpg",
+        "frame_00131.jpg",
+        "frame_00135.jpg",
+        "frame_00138.jpg",
+        "frame_00139.jpg",
+        "frame_00140.jpg",
+        "frame_00141.jpg",
+        "frame_00142.jpg",
+        "frame_00143.jpg",
+        "frame_00146.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00128.jpg",
+        "frame_00131.jpg",
+        "frame_00135.jpg",
+        "frame_00138.jpg",
+        "frame_00139.jpg",
+        "frame_00140.jpg",
+        "frame_00141.jpg",
+        "frame_00142.jpg",
+        "frame_00143.jpg",
+        "frame_00146.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00128.jpg",
+        "frame_00131.jpg",
+        "frame_00135.jpg",
+        "frame_00138.jpg",
+        "frame_00139.jpg",
+        "frame_00140.jpg",
+        "frame_00141.jpg",
+        "frame_00142.jpg",
+        "frame_00143.jpg",
+        "frame_00146.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00128.jpg",
+        "frame_00131.jpg",
+        "frame_00135.jpg",
+        "frame_00138.jpg",
+        "frame_00139.jpg",
+        "frame_00140.jpg",
+        "frame_00141.jpg",
+        "frame_00142.jpg",
+        "frame_00143.jpg",
+        "frame_00146.jpg"
+      ],
+      "gt": [
+        "frame_00128.jpg",
+        "frame_00135.jpg",
+        "frame_00138.jpg",
+        "frame_00139.jpg",
+        "frame_00140.jpg",
+        "frame_00141.jpg",
+        "frame_00142.jpg",
+        "frame_00143.jpg",
+        "frame_00146.jpg",
+        "frame_00147.jpg"
+      ]
+    }
+  },
+  "39": {
+    "4": {
+      "colmap": [
+        "frame_00142.jpg",
+        "frame_00158.jpg",
+        "frame_00162.jpg",
+        "frame_00164.jpg",
+        "frame_00165.jpg",
+        "frame_00166.jpg",
+        "frame_00167.jpg",
+        "frame_00181.jpg",
+        "frame_00182.jpg",
+        "frame_00188.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00142.jpg",
+        "frame_00158.jpg",
+        "frame_00162.jpg",
+        "frame_00164.jpg",
+        "frame_00165.jpg",
+        "frame_00166.jpg",
+        "frame_00167.jpg",
+        "frame_00181.jpg",
+        "frame_00182.jpg",
+        "frame_00188.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00142.jpg",
+        "frame_00158.jpg",
+        "frame_00162.jpg",
+        "frame_00164.jpg",
+        "frame_00165.jpg",
+        "frame_00166.jpg",
+        "frame_00167.jpg",
+        "frame_00181.jpg",
+        "frame_00182.jpg",
+        "frame_00188.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00142.jpg",
+        "frame_00158.jpg",
+        "frame_00162.jpg",
+        "frame_00164.jpg",
+        "frame_00165.jpg",
+        "frame_00166.jpg",
+        "frame_00167.jpg",
+        "frame_00181.jpg",
+        "frame_00182.jpg",
+        "frame_00188.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00142.jpg",
+        "frame_00158.jpg",
+        "frame_00162.jpg",
+        "frame_00164.jpg",
+        "frame_00165.jpg",
+        "frame_00166.jpg",
+        "frame_00167.jpg",
+        "frame_00181.jpg",
+        "frame_00182.jpg",
+        "frame_00188.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00142.jpg",
+        "frame_00158.jpg",
+        "frame_00162.jpg",
+        "frame_00164.jpg",
+        "frame_00165.jpg",
+        "frame_00166.jpg",
+        "frame_00167.jpg",
+        "frame_00181.jpg",
+        "frame_00182.jpg",
+        "frame_00188.jpg"
+      ],
+      "gt": [
+        "frame_00142.jpg",
+        "frame_00162.jpg",
+        "frame_00166.jpg",
+        "frame_00731.jpg",
+        "frame_00734.jpg",
+        "frame_00735.jpg",
+        "frame_00736.jpg",
+        "frame_00738.jpg",
+        "frame_00739.jpg"
+      ]
+    }
+  },
+  "18": {
+    "0": {
+      "colmap": [
+        "frame_00018.jpg",
+        "frame_00020.jpg",
+        "frame_00083.jpg",
+        "frame_00092.jpg",
+        "frame_00146.jpg",
+        "frame_00151.jpg",
+        "frame_00176.jpg",
+        "frame_00177.jpg",
+        "frame_00179.jpg",
+        "frame_00180.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00018.jpg",
+        "frame_00020.jpg",
+        "frame_00083.jpg",
+        "frame_00092.jpg",
+        "frame_00146.jpg",
+        "frame_00151.jpg",
+        "frame_00176.jpg",
+        "frame_00177.jpg",
+        "frame_00179.jpg",
+        "frame_00180.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00018.jpg",
+        "frame_00020.jpg",
+        "frame_00083.jpg",
+        "frame_00092.jpg",
+        "frame_00146.jpg",
+        "frame_00151.jpg",
+        "frame_00176.jpg",
+        "frame_00177.jpg",
+        "frame_00179.jpg",
+        "frame_00180.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00018.jpg",
+        "frame_00020.jpg",
+        "frame_00083.jpg",
+        "frame_00092.jpg",
+        "frame_00146.jpg",
+        "frame_00151.jpg",
+        "frame_00176.jpg",
+        "frame_00177.jpg",
+        "frame_00179.jpg",
+        "frame_00180.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00018.jpg",
+        "frame_00020.jpg",
+        "frame_00083.jpg",
+        "frame_00092.jpg",
+        "frame_00146.jpg",
+        "frame_00151.jpg",
+        "frame_00176.jpg",
+        "frame_00177.jpg",
+        "frame_00179.jpg",
+        "frame_00180.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00018.jpg",
+        "frame_00020.jpg",
+        "frame_00083.jpg",
+        "frame_00092.jpg",
+        "frame_00146.jpg",
+        "frame_00151.jpg",
+        "frame_00176.jpg",
+        "frame_00177.jpg",
+        "frame_00179.jpg",
+        "frame_00180.jpg"
+      ],
+      "gt": [
+        "frame_00018.jpg",
+        "frame_00020.jpg",
+        "frame_00151.jpg",
+        "frame_00246.jpg",
+        "frame_00247.jpg",
+        "frame_00249.jpg",
+        "frame_00251.jpg",
+        "frame_00252.jpg",
+        "frame_00254.jpg",
+        "frame_00255.jpg"
+      ]
+    }
+  },
+  "90": {
+    "1": {
+      "colmap": [
+        "frame_00053.jpg",
+        "frame_00063.jpg",
+        "frame_00075.jpg",
+        "frame_00130.jpg",
+        "frame_00131.jpg",
+        "frame_00132.jpg",
+        "frame_00133.jpg",
+        "frame_00134.jpg",
+        "frame_00135.jpg",
+        "frame_00137.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform": [
+        "frame_00053.jpg",
+        "frame_00063.jpg",
+        "frame_00075.jpg",
+        "frame_00130.jpg",
+        "frame_00131.jpg",
+        "frame_00132.jpg",
+        "frame_00133.jpg",
+        "frame_00134.jpg",
+        "frame_00135.jpg",
+        "frame_00137.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform": [
+        "frame_00053.jpg",
+        "frame_00063.jpg",
+        "frame_00075.jpg",
+        "frame_00130.jpg",
+        "frame_00131.jpg",
+        "frame_00132.jpg",
+        "frame_00133.jpg",
+        "frame_00134.jpg",
+        "frame_00135.jpg",
+        "frame_00137.jpg"
+      ],
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": [
+        "frame_00053.jpg",
+        "frame_00063.jpg",
+        "frame_00075.jpg",
+        "frame_00130.jpg",
+        "frame_00131.jpg",
+        "frame_00132.jpg",
+        "frame_00133.jpg",
+        "frame_00134.jpg",
+        "frame_00135.jpg",
+        "frame_00137.jpg"
+      ],
+      "colmap_gpnps": [
+        "frame_00053.jpg",
+        "frame_00063.jpg",
+        "frame_00075.jpg",
+        "frame_00130.jpg",
+        "frame_00131.jpg",
+        "frame_00132.jpg",
+        "frame_00133.jpg",
+        "frame_00134.jpg",
+        "frame_00135.jpg",
+        "frame_00137.jpg"
+      ],
+      "colmap_registered_super_glue": [
+        "frame_00053.jpg",
+        "frame_00063.jpg",
+        "frame_00075.jpg",
+        "frame_00130.jpg",
+        "frame_00131.jpg",
+        "frame_00132.jpg",
+        "frame_00133.jpg",
+        "frame_00134.jpg",
+        "frame_00135.jpg",
+        "frame_00137.jpg"
+      ],
+      "gt": [
+        "frame_00053.jpg",
+        "frame_00063.jpg",
+        "frame_00075.jpg",
+        "frame_00130.jpg",
+        "frame_00131.jpg",
+        "frame_00132.jpg",
+        "frame_00133.jpg",
+        "frame_00134.jpg",
+        "frame_00135.jpg",
+        "frame_00137.jpg"
+      ]
+    }
+  }
+};
+
+    const cathedralSelect = document.getElementById('cathedralSelect');
+    const colmapSelect = document.getElementById('colmapSelect');
+    const methodSelect = document.getElementById('methodSelect');
+    const imageDisplay = document.getElementById('imageDisplay');
+
+    const method_dict = {
+      "gt" : "Ground Truth",
+      "colmap" : "COLMAP",
+      "colmap_gpnps" : "gDLS+++",
+      "colmap_registered_super_glue" : "SP+LG",
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_transform" : "Ours (COLMAP init) ",
+      "features/percentile-50_iteration-24000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform" : "feautres-prec50-24000",
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-gpnps_transform" : "Ours (gDLS+++ init)",
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_angle-0.0_translation-0.0_initilization-registered_super_glue_transform" : "Ours (SP+LG init)",
+      "features/percentile-50_iteration-12000_near-plane-0.7__l2_loss-False_feature_type-dino_loss_masking-100_transform": "Ours (COLMAP init)"
+    }
+
+    const method_dict_inv = {};
+
+    for (const key in method_dict) {
+      const value = method_dict[key];
+      method_dict_inv[value] = key;   // swap key ⇄ value
+    }
+
+    const cathedral_name_dict = {
+      "0" : "Milano Cathedral",
+      "10" : "Sanfrancisco Cathedral",
+      "18" : "Lisbon Cathedral", 
+      "20" : "Brussels Cathedral",
+      "21" : "Salamanca Cathedral",
+      "27" : "St John the Divine Cathedral",
+      "33" : "Westminster Cathedral",
+      "36" : "Burgos Cathedral",
+      "37" : "Aachen Cathedral",
+      "39" : "Freiburg Cathedral",
+      "43" : "Oviedo Cathedral",
+      "46" : "Palermo Cathedral",
+      "50" : "Wells Cathedral",
+      "52" : "Lincoln Cathedral",
+      "53" : "Monreale Cathedral",
+      "54" : "Rouen Cathedral",
+      "55" : "Geneva Cathedral",
+      "56" : "Ulm Minster",
+      "61" : "Bordeaux Cathedral",
+      "75" : "Murcia Cathedral",
+      "85" : "Metz Cathedral",
+      "90" : "Avila Cathedral",
+      "93" : "salisbury cathedral",
+      "97" : "Napoli Cathedral"
+    }
+
+    const cathedral_name_dict_inv = {};
+
+    for (const key in cathedral_name_dict) {
+      const value = cathedral_name_dict[key];
+      cathedral_name_dict_inv[value] = key;   // swap key ⇄ value
+    }
+
+   function populateMethod() {
+  const selectedCat = cathedralSelect.value;
+  const cat_number = cathedral_name_dict_inv[selectedCat];
+  const selectCol = colmapSelect.value;
+
+  methodSelect.innerHTML = '';
+
+  const methods = Object.keys(imageIndex[cat_number][selectCol]);
+
+  // If GT exists → put it first
+  if (methods.includes("gt")) {
+    const opt = document.createElement('option');
+    opt.value = method_dict["gt"];
+    opt.textContent = method_dict["gt"];
+    methodSelect.appendChild(opt);
+
+    // Remove from the list so it won't appear twice
+    methods.splice(methods.indexOf("gt"), 1);
+  }
+
+  // Add the rest of the methods in their original order
+  for (let method of methods) {
+    const opt = document.createElement('option');
+    const label = method_dict[method] || method; // map if exists
+    opt.value = label;
+    opt.textContent = label;
+    methodSelect.appendChild(opt);
+  }
+}
+ 
+    
+function populateCathedrals() {
+  const PRIORITY = ["39", "50", "85","37"];  
+  cathedralSelect.innerHTML = '';
+
+  for (const catId of PRIORITY) {
+    if (imageIndex[catId]) {
+      const opt = document.createElement('option');
+      const cat_name = cathedral_name_dict[catId];
+      opt.value = cat_name;
+      opt.textContent = cat_name;
+      cathedralSelect.appendChild(opt);
+    }
+  }
+
+  // 2. Add all remaining cathedrals (not in priority list)
+  for (let cat in imageIndex) {
+    if (PRIORITY.includes(cat)) continue;
+    const opt = document.createElement('option');
+    const cat_name = cathedral_name_dict[cat];
+    opt.value = cat_name;
+    opt.textContent = cat_name;
+    cathedralSelect.appendChild(opt);
+  }
+}
+
+
+    function populateColmaps() {
+      const selectedCat = cathedralSelect.value;
+      cat_number = cathedral_name_dict_inv[selectedCat]
+      colmapSelect.innerHTML = '';
+      for (let col in imageIndex[cat_number]) {
+        const opt = document.createElement('option');
+        opt.value = col;
+        opt.textContent = col;
+        colmapSelect.appendChild(opt);
+      }
+    }
+
+    function drawSplitImage(gtPath, gtRgbPath, canvas) {
+    const ctx = canvas.getContext('2d');
+    const img1 = new Image();
+    const img2 = new Image();
+    const targetWidth = 300;
+    const targetHeight = 300;
+
+    let img1Loaded = false;
+    let img2Loaded = false;
+
+    function tryDraw() {
+      if (img1Loaded && img2Loaded) {
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+
+        // Draw bottom-left triangle with img2
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(targetWidth, 0);
+        ctx.lineTo(0, targetHeight);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(img2, 0, 0, targetWidth, targetHeight);
+        ctx.restore();
+
+        // Draw top-right triangle with img1
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(targetWidth, targetHeight);
+        ctx.lineTo(targetWidth, 0);
+        ctx.lineTo(0, targetHeight);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(img1, 0, 0, targetWidth, targetHeight);
+        ctx.restore();
+      }
+    }
+
+    img1.onload = () => {
+      img1Loaded = true;
+      tryDraw();
+    };
+
+    img2.onload = () => {
+      img2Loaded = true;
+      tryDraw();
+    };
+
+    img1.src = gtPath
+    img2.src = gtRgbPath 
+  }
+
+    function showImages() {
+      imageDisplay.innerHTML = '';
+      const cat_name = cathedralSelect.value;
+      const cat_number = cathedral_name_dict_inv[cat_name];
+      const col = colmapSelect.value;
+      const method = methodSelect.value;
+      const method_name = method_dict_inv[method];
+      const images = imageIndex[cat_number][col][method_name];
+
+      for (let filename of images) {
+        
+        let gtPath, gtRgbPath;
+
+        if (method_name === 'gt'){
+          gtPath = `./${cat_number}/None/renders/${method_name}/train/rgb/${filename}`;
+          gtRgbPath = `./${cat_number}/None/renders/${method_name}/train/gt-rgb/${filename}`;
+        }
+        else{
+          gtPath = `./${cat_number}/${col}/renders/${method_name}/train/rgb/${filename}`;
+          gtRgbPath = `./${cat_number}/${col}/renders/${method_name}/train/gt-rgb/${filename}`;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'image-container';
+
+        const title = document.createElement('p');
+        title.textContent = "";
+
+        const canvas = document.createElement('canvas');
+        drawSplitImage(gtPath, gtRgbPath, canvas);
+
+        container.appendChild(title);
+        container.appendChild(canvas);
+        imageDisplay.appendChild(container);
+      }
+    }
+
+    // Initialize
+    populateCathedrals();
+    populateColmaps();
+    populateMethod();
+    showImages();
+    
+    cathedralSelect.addEventListener('change', () => {
+        populateColmaps();     // update Meta IDs
+        populateMethod();      // update Method options based on the new Meta ID
+        showImages();
+    });
+
+    colmapSelect.addEventListener('change', () => {
+        populateMethod();      // update Method when Meta Image changes
+        showImages();
+    });
+
+    methodSelect.addEventListener('change', showImages);
+  </script>
+</body>
+
+</html>
