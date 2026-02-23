@@ -342,19 +342,25 @@ ul.custom-list li::marker {
     font-size: 16px;
     background-color: rgb(240, 240, 240);
 }
-        .video-container {
-            max-width: 800px;
-            width: 55%;
-           /* Center the video container */
-            margin: 0 auto; 
-        }
+.video-container {
+    max-width: 800px;
+    width: 55%;
+    margin: 0 auto; /* Centers the container */
+    display: flex;
+    justify-content: center;
+}
 
-        /* Keep controls always visible */
-        .video-js .vjs-control-bar {
-            display: flex !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-        }
+/* Ensure the Video.js player itself respects the container width */
+.video-js {
+    margin: 0 auto;
+    width: 100% !important; /* Forces the player to fill the 55% container */
+    height: auto !important; /* Maintains aspect ratio */
+}
+
+/* Fix for internal video element */
+.vjs-tech {
+    position: relative !important; 
+}
 
 /* Center graph tabs and histograms, keep width less than 55% (use 50%) */
 .results-table-container {
