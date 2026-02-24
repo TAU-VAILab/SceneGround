@@ -51,7 +51,7 @@
                 <span class="author-block"><sup>2</sup>Cornell University</span>
             </div>
         </section>
-        <h2 align="center" style="font-size: 31px;">CVPR 2026</h2>
+        <h2 align="center" style="font-size: 31px; border: none;">CVPR 2026</h2>
 
         <!-- link buttons -->
         <div class="column has-text-centered">
@@ -111,7 +111,6 @@
         <!-- teaser -->
         <section class="teaser-section" width="100%">
             <div class="teaser-container">
-                <hr>
                 <div class="im_container has-text-justified" width="100%" align="center">
                     <img align="center" src="images/teaser.png" alt="Overview" width="100%">
                 </div>
@@ -146,7 +145,6 @@
         <!-- abstract -->
         <section class="abstract-section" width="100%">
             <div class="abstract-container has-text-justified">
-                <hr>
                 <h2 align="center">Abstract</h2>
                 <p class="has-text-justified">
                     Reconstructing accurate 3D models of large-scale real-world scenes from unstructured, in-the-wild
@@ -176,7 +174,6 @@
         <!-- Slider main container -->
         <section class="Results-section" width="100%">
             <div class="abstract-container has-text-justified">
-                <hr>
                 <h2 style="text-align:center;">Optimization Visualization</h2>
                 <p>Below, we show the alignment produced by our optimization based method, aligning a partial
                     reconstruction of the Freiburg Cathedral to a 3DGS reference model generated from Google Earth
@@ -222,7 +219,6 @@
                     player.tech_.off('click');
                 </script>
                 <br>
-                <hr>
                 <h2 align="center">Alignment Visualization</h2>
                 <p class="has-text-justified"></p>
                 Below we provide a sample of the alignment results, before and after our optimization scheme. Each
@@ -385,7 +381,6 @@
         <!-- method -->
         <section class="method-section">
             <div class="method-container">
-                <hr>
                 <h2 align="center">How Does it Work?</h2>
                 <p class="has-text-justified"> Given a <a
                         href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3DGS</a> reference model (left)
@@ -408,7 +403,6 @@
         <!-- method -->
         <section class="method-section" width="70%">
             <div class="method-container">
-                <hr>
                 <h2 align="center">The WikiEarth Benchmark</h2>
                 <p class="has-text-justified">
                     We construct the <a>WikiEarth</a> benchmark, which includes augmented 3D reconstructions from the <a
@@ -427,37 +421,38 @@
 
         <section class="results-section">
             <div class="results-container">
-                <hr>
                 <h2 align="center">Results</h2>
                 <p class="has-text-justified">
                     Below we compare performance on the WikiEarth benchmark against multiple
                     baselines. We report the average rotation and translation errors
                     (ΔR, ΔT) across all meta-images, the Meta-image Transformation Accuracy (MTA),
                     and the percentage of alignment outlier (O%).
-
                     We compare our method to the <a
                         href="https://openaccess.thecvf.com/content_cvpr_2016/papers/Schonberger_Structure-From-Motion_Revisited_CVPR_2016_paper.pdf">COLMAP</a>
                     baseline, to a SfM pipeline that uses
                     <a href="https://arxiv.org/abs/1712.07629">SuperPoint</a> as the feature extractor
                     and <a href="https://arxiv.org/abs/2306.13643">LightGlue</a> as the feature matcher (SP+LG),
                     and to the distributed camera-model SfM method
-                    <a href="https://arxiv.org/abs/1607.03949">gDLS+++</a>.
+                    <a href="https://arxiv.org/abs/1607.03949">gDLS+++</a>. We also conducted comparisons to recent feed-forward methods
                     Additional details are provided in the paper Experiments section.
 
-                <br>
-                <br>
-                <div class="results-table-container">
-                    <div class="tab-pane fade" id="graph2">
-                        <img src="./images/tables/comparison_methods.png" alt="Comparison with Baselines"
-                            class="img-fluid">
+                    <br>
+                    <br>
+                    <div class="results-table-container">
+                        <div class="tab-pane fade" id="graph2">
+                            <img src="./images/tables/comparison_methods.png" alt="Comparison with Baselines"
+                                class="img-fluid">
+                        </div>
+                        <div class="tab-pane fade" id="graph3">
+                            <img src="./images/tables/feed_forward_methods_comparison.png"
+                                alt="Comparison with Feed-forward Methods" class="img-fluid">
+                        </div>
                     </div>
-                </div>
             </div>
 
             <!-- BibTex -->
             <section class="bib-section" width="100%">
                 <div class="bib-container">
-                    <hr>
                     <h2 align="center">BibTeX</h2>
                     <div class="code-container">
                         <code>
@@ -498,3 +493,5 @@
 </body>
 
 </html>
+
+

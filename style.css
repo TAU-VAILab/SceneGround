@@ -1,474 +1,153 @@
+/* 1. Global Reset & Base Styles */
 body {
-    font-family: 'Noto Sans', sans-serif;
-  }
-
-h1 {
-    font-family: "Noto Sans", Arial;
-    font-size: 37px;
-    color: rgb(95, 95, 95);
-    letter-spacing: -1px;
-    word-spacing: 7px;
-	margin-top: 60px;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-h2 {
-    font-family: "Noto Sans", Arial;
-    font-size: 30px;
-    margin-top: 30px;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-h3 {
-    font-family: "Noto Sans", Arial;
-    font-size: 20px;
-    transform: rotate(270deg);
-    position: relative;
-    left: 100;
-}
-
-h4 {
-    font-family: "Indie Flower", Arial;
-    font-size: 18px;
-    transform: rotate(270deg);
-    position: relative;
-    left: 100;
-}
-
-h5 {
-    font-family: "Noto Sans", Arial;
-    font-size: 20px;
-}
-
-p {
-    font-family: "Noto Sans", Arial;
-    font-size: 16px;
-}
-
-li {
-    font-family: "Noto Sans", Arial;
-    font-size: 16px;
-}
-
-.prompt_title {
-    font-family: "Indie Flower", Arial;
-    font-size: 1.8vw;
-}
-
-.prompt_title_local {
-    /* Use the site's primary font to match other headings */
     font-family: 'Noto Sans', Arial, sans-serif;
-    font-size: 1.2vw;
-    text-align: center;
-}
-
-.prompt_title_local_r {
-    font-family: "Indie Flower", Arial;
-    font-size: 1.8vw;
-	color: red;
-	font-weight: bold;
-}
-
-.prompt_title_local_b {
-    font-family: "Indie Flower", Arial;
-    font-size: 1.8vw;
-	color: blue;
-	font-weight: bold;
-}
-
-.cornflowerblue {
-    font-family: "Indie Flower", Arial;
-    font-size: 18px;
-	color: cornflowerblue;
-	font-weight: bold;
-}
-
-.skyblue {
-    font-family: "Noto Sans", Arial;
-    font-size: 18px;
-	color: skyblue;
-	font-weight: bold;
-}
-
-.lightcyan {
-    font-family: "Noto Sans", Arial;
-    font-size: 18px;
-	color: lightcyan;
-	font-weight: bold;
-}
-
-.hotpink {
-    font-family: "Noto Sans", Arial;
-    font-size: 18px;
-	color: hotpink;
-	font-weight: bold;
-}
-.gray {
-    font-family: "Noto Sans", Arial;
-    font-size: 18px;
-	color: gray;
-	font-weight: bold;
-}
-.lavenderblush {
-    font-family: "Noto Sans", Arial;
-    font-size: 18px;
-	color: lavenderblush;
-	font-weight: bold;
-}
-.cyan {
-    font-family: "Noto Sans", Arial;
-    font-size: 18px;
-	color: cyan;
-	font-weight: bold;
-}
-.black {
-    font-family: "Noto Sans", Arial;
-    font-size: 18px;
-	color: black;
-	font-weight: bold;
-}
-.tomato {
-    font-family: "Noto Sans", Arial;
-    font-size: 18px;
-	color: tomato;
-	font-weight: bold;
-}
-
-.video-label {
-    font-family: "Noto Sans", Arial;
-    font-size: 1.8vw;
-}
-
-.video-label-slides {
-    font-family: "Noto Sans", Arial;
-    font-size: 1.6vw;
-    margin-bottom: 20px;
-}
-
-.author-block {
-    font-size: 18px;
-    /* ensure each author has breathing room between names */
-    display: inline-block;
-    margin-right: 14px;
-    vertical-align: middle;
-}
-
-.author-block a {
-    color: hsl(204, 86%, 53%);
-    text-decoration: none;
- }
-
-.conference-block {
-	font-family: "Noto Sans", Arial;
-	margin-bottom: 10px;
-	color: rgb(0, 100, 200);
-    font-size: 23px;
-	font-weight: bold;
-}
-
-.conference-block a {
-    text-decoration: none;
- }
- 
-.author-block a:hover {
-    text-decoration: underline;
-}
-
-.affiliations {
-    margin-top: 4px;
-	margin-bottom: 6px;
-}
-
-.publication-links{
-    width: 100%;
-    margin-top: -20px;
-}
-
-.paper-link {
-    color: rgb(0, 0, 0);
-}
-
-.link-block a {
-    text-decoration: none;
-    font-size: 22px;
-    color: rgb(0, 0, 0);
-}
-
-.link-block {
-    text-decoration: none;
-    font-size: 22px;
-    color: rgb(0, 0, 0);
-}
-
-.button {
-    padding: 16px 14px;
-    background-color: white;
-    border-radius: 24px;
-    font-size: 16px;
-    color: rgb(0, 0, 0);
-    border: 2px solid rgb(135, 134, 134);
-}
-
-.button:hover {
-    border: 2px solid rgb(0, 0, 0);
-}
-
-.page-container {
-    width: 100%;
-    height: 100vh
-}
-
-.swiper {
-    width: 70%;
-    margin-top: 30px;
-}
-
-.swiper-wrapper {
-    height: 75%;
-}
-
-.swiper-slide img {
-    width: 100%;
-}
-
-.swiper-slide video {
-    width: 100%;
-}
-
-.intro-paragraph {
-    width: 100%;
-}
-
-.intro-paragraph p {
-    width: 100%;
-    font-size: 20px;
-}
-
-.intro-container {
-    width: 55%;
-    margin: 0 auto;
-    margin-bottom: 30px;
-}
-
-.abstract-container {
-    width: 55%;
-    margin: 0 auto;
-    margin-bottom: 30px;
-}
-
-.abstract-container p {
-    font-size: 18px;
-}
-
-.benchmark-container {
-    width: 55%;
-    margin: 0 auto;           /* <--- centers the container itself */
-    display: flex;
-    justify-content: center;  /* centers the image inside the container */
-    align-items: center;       /* vertically center if the container has height */
-}
-
-/* image responsive rules */
-.benchmark-container img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-.method-container {
-    width: 55%;
-    margin: 0 auto;
-    margin-bottom: 30px;
-}
-
-.results-container {
-    width: 55%;
-    margin: 0 auto;
-    margin-bottom: 30px;
-}
-
-.swiper-slide {
-    display: flex;
-    align-items: center;
-    object-fit: contain;
-}
-
-ul.custom-list {
-    list-style-type: disc;
-    margin-top: 5px;
-    margin-bottom: 11px; 
-    margin-left: 40px;
-    padding-left: 0;
+    line-height: 1.6;
     color: #333;
-  }
-
-ul.custom-list li {
-    padding-left: 2px; /* Adds space between bullet and text */
-    margin-bottom: 5px; 
-
+    margin: 0;
+    padding: 0;
+    background-color: #fcfcfc;
 }
 
-ul.custom-list li::marker {
-    color: #8e4585;      /* Bullet color */
-    font-size: 1em;      
+/* 2. Responsive Containers */
+/* Instead of fixed %, we use max-width so it looks good on desktop but fits on mobile */
+.intro-container, 
+.abstract-container, 
+.method-container, 
+.results-container, 
+.ack-container, 
+.bib-container,
+.video-container {
+    width: 90%;
+    max-width: 850px; /* Standard readable line length */
+    margin: 0 auto 3rem auto;
+    text-align: center; /* Add this line */
 }
 
 .teaser-container {
+    width: 95%;
+    max-width: 1000px;
+    margin: 0 auto 2rem auto;
+}
+
+/* 3. Typography Hierarchy */
+h1, .ourh1 {
+    font-size: clamp(2rem, 5vw, 3rem); /* Dynamically scales with screen size */
+    color: #444;
+    text-align: center;
+    margin-top: 5%;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+}
+
+h2 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin-top: 2rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+p, li {
+    font-size: 1.1rem;
+    color: #4a4a4a;
+    margin-bottom: 1.2rem;
+}
+
+.button {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: #ffffff;
+    border-radius: 50px;
+    font-size: 1rem;
+    color: #333;
+    border: 1px solid #ddd;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    border-color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* 5. Components & Media */
+.benchmark-container img, 
+.swiper-slide img, 
+.swiper-slide video {
     width: 60%;
-    margin: 0 auto;
-    margin-bottom: 30px;
-}
-
-.ack-container {
-    width: 55%;
-    margin: 0 auto;
-    margin-bottom: 30px;
-}
-
-.bib-container {
-    width: 55%;
-    margin: 0 auto;
-    margin-bottom: 30px;
-}
-
-.code-container {
-    width: 100%;
-    background-color: rgb(240, 240, 240);
-}
-
-.bib-container code {
-    color: black;
-    font-size: 16px;
-    background-color: rgb(240, 240, 240);
-}
-.video-container {
-    max-width: 800px;
-    width: 55%;
-    margin: 0 auto; /* Centers the container */
-    display: flex;
-    justify-content: center;
-}
-
-/* Ensure the Video.js player itself respects the container width */
-.video-js {
-    margin: 0 auto;
-    width: 100% !important; /* Forces the player to fill the 55% container */
-    height: auto !important; /* Maintains aspect ratio */
-}
-
-/* Fix for internal video element */
-.vjs-tech {
-    position: relative !important; 
-}
-
-/* Center graph tabs and histograms, keep width less than 55% (use 50%) */
-.results-table-container {
-    width: 70%;
-    max-width: 70%;
-    margin: 0 auto 30px; /* center and give some space below */
-    text-align: center;  /* center inline elements like images */
-    /* create a card-like background so tabs look attached to the image */
-    display: block;
-}
-/* Center graph tabs and histograms, keep width less than 55% (use 50%) */
-.histograms-table-container {
-    /* match other content containers so paragraphs span the same width */
-    width: 70%;
-    max-width: 70%;
-    margin: 0 auto 30px; /* center and give some space below */
-    text-align: center;  /* center inline elements like images */
-    /* create a card-like background so tabs look attached to the image */
-    display: block;
-}
-
-/* Keep the Bootstrap tabs centered inside the smaller container */
-#graphTabs {
-    width: 100%;         /* span the container */
-    display: flex;
-    justify-content: center; /* center tab buttons */
-    gap: 0.5rem;
-    padding-left: 0;     /* remove default list padding if any */
-    margin-bottom: 0;    /* we'll visually join tabs with content */
-}
-
-/* Tab content styled as a single bordered card; tabs will appear to be part of it */
-.histograms-table-container .tab-content {
-    border: 1px solid rgb(200,200,200);
-    border-radius: 8px;
-    padding: 12px;
-    background: white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-}
-
-.histograms-table-container .tab-pane {
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center; /* center the image inside the pane */
-    align-items: center;
-}
-
-
-/* Page title and author spacing adjustments */
-.ourh1 {
-    /* slightly larger than default h1 and more top spacing */
-    font-size: 46px;
-    margin-top: 40px;
-    margin-bottom: 12px;
-    letter-spacing: -0.5px;
-}
-
-.authors_block .authors {
-    /* increase author name size and add breathing room */
-    font-size: 20px;
-    margin-top: 8px;
-    margin-bottom: 6px;
-}
-
-.authors_block .affiliations {
-    /* slightly larger affiliations and more separation from authors */
-    font-size: 17px;
-    margin-top: 6px;
-    margin-bottom: 18px;
-}
-/* Make the images behave like card content */
-.histograms-table-container img {
-    width: 100%;
     height: auto;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto; /* This pushes the element to the center */
+}
+
+/* Histograms & Tabs scaling */
+.histograms-table-container,
+.results-table-container {
+    width: 80%;
+    max-width: 1100px;
+    margin: 2rem auto;
+}
+
+.results-table-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.results-table-container .tab-pane {
+    flex: 1;
+}
+
+.results-table-container img {
+    width: 100%;
+    height: 100%;
+    max-height: 280px;
     object-fit: contain;
     display: block;
-    border-radius: 4px;
 }
 
-/* Style the tabs so the active tab looks attached to the top of the card */
-.histograms-table-container .nav-tabs {
-    border-bottom: none; /* remove default underline */
+/* 6. Fix for those 270deg Rotated Headings */
+/* Rotating elements with fixed 'left: 100' usually breaks layouts. 
+   Using % or viewport units makes it stay in place. */
+h3, h4 {
+    font-size: 1.2rem;
+    transform: rotate(270deg);
+    position: absolute;
+    left: 2%; 
+    white-space: nowrap;
 }
 
-.histograms-table-container .nav-link {
-    border: 1px solid transparent;
-    background: transparent;
-    color: #333;
+.author-block {
+    display: inline-block;
+    margin: 0.5rem 1rem;
+    font-size: 1.1rem;
 }
 
-.histograms-table-container .nav-link.active {
-    background: white;
-    border: 1px solid rgb(200,200,200);
-    border-bottom-color: white; /* hide bottom border so it merges with card */
-    border-radius: 6px 6px 0 0;
-    margin-bottom: -1px; /* pull active tab over the card border */
+.conference-block {
+    color: #0064c8;
+    font-weight: bold;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    text-align: center;
 }
 
-/* Responsive: allow histograms to use more space on small screens */
+/* 8. Media Queries for Mobile Fine-tuning */
 @media (max-width: 768px) {
-    .histograms-table-container {
-        width: 90%;
-        max-width: 90%;
+    .intro-container, .abstract-container {
+        width: 92%;
+    }
+    
+    .author-block {
+        display: block; /* Stack authors on small screens */
+        text-align: center;
+        margin: 0.2rem 0;
     }
 
-    #graphTabs {
-        flex-wrap: wrap;
-        gap: 0.25rem;
+    h3, h4 {
+        position: static; /* Remove rotation on mobile to save space */
+        transform: none;
+        text-align: center;
+        margin-bottom: 1rem;
     }
 }
