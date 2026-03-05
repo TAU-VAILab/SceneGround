@@ -433,39 +433,55 @@
                     <a href="https://arxiv.org/abs/1712.07629">SuperPoint</a> as the feature extractor
                     and <a href="https://arxiv.org/abs/2306.13643">LightGlue</a> as the feature matcher (SP+LG),
                     and to the distributed camera-model SfM method
-                    <a href="https://arxiv.org/abs/1607.03949">gDLS+++</a>. We also conducted comparisons to recent feed-forward methods
+                    <a href="https://arxiv.org/abs/1607.03949">gDLS+++</a>. We also conducted comparisons to recent
+                    feed-forward methods
                     Additional details are provided in the paper Experiments section.
 
                     <br>
                     <br>
-                    <div class="results-table-container">
-                        <div class="tab-pane fade" id="graph2">
-                            <img src="./images/tables/comparison_methods.png" alt="Comparison with Baselines"
-                                class="img-fluid">
-                        </div>
-                        <div class="tab-pane fade" id="graph3">
-                            <img src="./images/tables/feed_forward_methods_comparison.png"
-                                alt="Comparison with Feed-forward Methods" class="img-fluid">
-                        </div>
-                    </div>
-            </div>
-
-            <!-- BibTex -->
-            <section class="bib-section" width="100%">
-                <div class="bib-container">
-                    <h2 align="center">BibTeX</h2>
-                    <div class="code-container">
-                        <code>
-                </code>
+                <div class="results-table-container" style="display: flex; justify-content: center;">
+                    <div class="tab-pane fade" id="graph2">
+                        <img src="./images/tables/comparison_methods.png" alt="Comparison with Baselines"
+                            class="img-fluid">
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <p><br>
-            </p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
-            <p>&nbsp;</p>
+        <!-- Method Analysis -->
+        <section class="method-analysis-section">
+            <div class="method-container">
+                <h2 align="center">Method Analysis</h2>
+                <p class="has-text-justified">
+                    Our method demonstrates high precision as the number of images in each meta-image increases, with
+                    rotation and translation errors reaching a performance plateau at approximately six images. The
+                    system also shows strong robustness to initialization noise, successfully aligning meta-images with
+                    less than 10 degrees of error for each rotation parameter.
+                </p>
+                <br>
+                <div class="im_container has-text-justified" width="100%" align="center">
+                    <img align="center" src="images/graphs/analysis.png" alt="Method Analysis">
+                </div>
+                <br>
+            </div>
+        </section>
+
+        <!-- BibTex -->
+        <section class="bib-section" width="100%">
+            <div class="bib-container">
+                <h2 align="center">BibTeX</h2>
+                <div class="code-container">
+                    <code>
+                </code>
+                </div>
+            </div>
+        </section>
+
+        <p><br>
+        </p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
 
     </div>
     <script>
@@ -493,5 +509,3 @@
 </body>
 
 </html>
-
-
