@@ -124,10 +124,17 @@ h3, h4 {
     text-align: center;
 }
 
+.section-subtitle {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.8rem;
+}
+
 /* 7. Specific sizing for method analysis graph and results table */
 .method-analysis-section .im_container img {
-    width: 75%;
-    max-width: 75%;
+    width: 55%;
+    max-width: 55%;
     display: block;
     margin: 0 auto;
 }
@@ -141,7 +148,19 @@ h3, h4 {
     margin: 0 auto;
 }
 
-/* 8. Media Queries for Mobile Fine-tuning */
+/* 8. Results Chart */
+.results-chart-container {
+    width: 80%;
+    max-width: 650px;
+    margin: 2rem auto;
+}
+
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* 9. Media Queries for Mobile Fine-tuning */
 @media (max-width: 768px) {
     .intro-container, .abstract-container {
         width: 92%;

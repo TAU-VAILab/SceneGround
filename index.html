@@ -59,19 +59,19 @@
 
                 <!-- arxiv link -->
                 <span class="link-block">
-                    <a href="" class="paper-link" style="display: inline-block">
+                    <a href="https://arxiv.org/abs/2603.26584" class="paper-link" style="display: inline-block">
                         <button class="button">
                             <span class="icon">
                                 <i class="ai ai-arxiv"></i>
                             </span>
-                            <span>arXiv (Coming Soon)</span>
+                            <span>arXiv</span>
                         </button>
                     </a>
                 </span>
 
                 <!-- Github Link. -->
                 <span class="link-block">
-                    <a href="" style="display: inline-block">
+                    <a href="https://github.com/TAU-VAILab/SceneGround" style="display: inline-block">
                         <button class="button">
                             <span class="icon">
                                 <i class="fa fa-github"></i>
@@ -439,30 +439,158 @@
 
                     <br>
                     <br>
-                <div class="results-table-container" style="display: flex; justify-content: center;">
-                    <div class="tab-pane fade" id="graph2">
-                        <img src="./images/tables/comparison_methods.png" alt="Comparison with Baselines"
-                            class="img-fluid">
+                <div class="results-chart-container">
+                    <p class="section-subtitle" align="center">Improvement Over Baselines</p>
+                    <div class="chart-wrapper">
+                        <canvas id="resultsChart"></canvas>
                     </div>
                 </div>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+                <script>
+                (function() {
+                    Chart.register(ChartDataLabels);
+
+                    var baseline = {
+                        deltaR: [2.86, 3.74, 4.99],
+                        deltaT: [0.12, 0.25, 0.12],
+                        MTA:    [78, 74, 66],
+                        outlier:[6, 15, 12]
+                    };
+                    var ours = {
+                        deltaR: [2.69, 3.13, 2.48],
+                        deltaT: [0.13, 0.24, 0.12],
+                        MTA:    [84, 81, 81],
+                        outlier:[3, 7, 0]
+                    };
+
+                    function improve(base, our, higherBetter) {
+                        return base.map(function(b, i) {
+                            if (b === 0) return 0;
+                            if (higherBetter) return +((our[i] - b) / b * 100).toFixed(1);
+                            return +((b - our[i]) / b * 100).toFixed(1);
+                        });
+                    }
+
+                    var ctx = document.getElementById('resultsChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['gDLS+++', 'SP+LG', 'COLMAP'],
+                            datasets: [
+                                {
+                                    label: 'ΔR',
+                                    data: improve(baseline.deltaR, ours.deltaR, false),
+                                    backgroundColor: 'rgba(75, 120, 168, 0.8)',
+                                    borderColor: 'rgba(55, 90, 140, 1)',
+                                    borderWidth: 1,
+                                    borderRadius: 4
+                                },
+                                {
+                                    label: 'ΔT',
+                                    data: improve(baseline.deltaT, ours.deltaT, false),
+                                    backgroundColor: 'rgba(120, 85, 160, 0.8)',
+                                    borderColor: 'rgba(95, 65, 135, 1)',
+                                    borderWidth: 1,
+                                    borderRadius: 4
+                                },
+                                {
+                                    label: 'MTA',
+                                    data: improve(baseline.MTA, ours.MTA, true),
+                                    backgroundColor: 'rgba(72, 155, 145, 0.8)',
+                                    borderColor: 'rgba(50, 125, 115, 1)',
+                                    borderWidth: 1,
+                                    borderRadius: 4
+                                },
+                                {
+                                    label: 'O%',
+                                    data: improve(baseline.outlier, ours.outlier, false),
+                                    backgroundColor: 'rgba(180, 130, 75, 0.8)',
+                                    borderColor: 'rgba(150, 105, 55, 1)',
+                                    borderWidth: 1,
+                                    borderRadius: 4
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                    labels: { font: { size: 14 } }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(item) {
+                                            var v = item.raw;
+                                            if (v < 0) return item.dataset.label + ': ' + v + '% (regression)';
+                                            return item.dataset.label + ': +' + v + '% improvement';
+                                        }
+                                    }
+                                },
+                                datalabels: {
+                                    anchor: function(ctx) {
+                                        return ctx.dataset.data[ctx.dataIndex] >= 0 ? 'end' : 'start';
+                                    },
+                                    align: function(ctx) {
+                                        return ctx.dataset.data[ctx.dataIndex] >= 0 ? 'top' : 'bottom';
+                                    },
+                                    formatter: function(v) { return v + '%'; },
+                                    font: { size: 11, weight: 'bold' },
+                                    color: '#444'
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Improvement (%)',
+                                        font: { size: 14 }
+                                    },
+                                    ticks: {
+                                        callback: function(v) { return v + '%'; }
+                                    },
+                                    grid: {
+                                        color: function(ctx) {
+                                            return ctx.tick.value === 0 ? '#999' : '#e5e5e5';
+                                        },
+                                        lineWidth: function(ctx) {
+                                            return ctx.tick.value === 0 ? 2 : 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })();
+                </script>
             </div>
         </section>
 
         <!-- Method Analysis -->
         <section class="method-analysis-section">
             <div class="method-container">
-                <h2 align="center">Method Analysis</h2>
+                <p class="section-subtitle" align="center">Method Analysis</p>
                 <p class="has-text-justified">
                     Our method demonstrates low errors as the number of images in each meta-image increases, with
                     rotation and translation errors reaching a performance plateau at approximately six images. The
                     system also shows strong robustness to initialization noise, successfully aligning meta-images with
                     less than 10 degrees of error for each rotation parameter.
                 </p>
-                <br>
                 <div class="im_container has-text-justified" width="100%" align="center">
                     <img align="center" src="images/graphs/analysis.png" alt="Method Analysis">
                 </div>
-                <br>
+            </div>
+        </section>
+
+        <!-- Acknowledgments -->
+        <section class="ack-section" width="100%">
+            <div class="ack-container has-text-justified">
+                <h2 align="center">Acknowledgments</h2>
+                <p class="has-text-justified">
+                    This work was partially supported by the Israel Science Foundation grants 2510/23 and 2132/23.
+                </p>
             </div>
         </section>
 
@@ -471,8 +599,15 @@
             <div class="bib-container">
                 <h2 align="center">BibTeX</h2>
                 <div class="code-container">
-                    <code>
-                </code>
+                    <pre style="text-align: left;"><code>@misc{cohen2026scenegroundingwild,
+      title={Scene Grounding In the Wild},
+      author={Tamir Cohen and Leo Segre and Shay Shomer-Chai and Shai Avidan and Hadar Averbuch-Elor},
+      year={2026},
+      eprint={2603.26584},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2603.26584},
+}</code></pre>
                 </div>
             </div>
         </section>
