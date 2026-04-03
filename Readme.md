@@ -20,6 +20,58 @@ Furthermore, we introduce the WikiEarth dataset, which registers existing partia
 ![Teaser](./images/teaser.png)
 </br>
 
+## Overview
+This implementation is built on top of the [Nerfstudio](https://github.com/nerfstudio-project/nerfstudio) framework
+
+## Installation
+
+### Environment Setup
+
+Create a conda environment and install the required dependencies:
+
+```bash
+# Create environment
+conda create -n scene_grounding python=3.10
+conda activate scene_grounding
+./scripts/setup_env.sh
+```
+Install colmap 3.10 (https://colmap.github.io/install.html)
+
+### Data Download
+Run `./scripts/prepare_dataset.sh` to download the WikiEarth and WikiScenes datasets.
+
+
+## Usage
+
+### Running the Full Pipeline
+
+To create the 3D Gaussian Splatting base model, prepare the meta image, run the colmap baseline initializaiton and run registration:
+
+```bash
+./scripts/pipelines/full_pipeline.sh 39 4 dino
+```
+
+**Parameters:**
+- `cathedral_number`: This first argument Cathedral ID from WikiScenes dataset
+- `colmap_number`: The second argument Meta image number from WikiScenes 3D reconstruction
+- `feature_type`: Feature extraction method (use `dino` to reproduce paper results)
+
+The 7DOF transform will be written to `./transforms`
+
+### Running Registration Only
+
+To run only the registration component:
+
+```bash
+./scripts/pipelines/features_pipeline.sh <cathedral_number> <feature_type> <colmap_number>
+```
+
+
+# Acknowledgments 
+This work is built upon the Nerfstudio framework. We thank the Nerfstudio team for their excellent codebase and tools that made
+this research possible. 
+
+
 ## BibTeX
 If you find our work useful in your research, please consider citing:
 

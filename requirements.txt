@@ -1,0 +1,13 @@
+lerf @ git+https://github.com/kerrj/lerf@db08d578038d884542688511bd9ad7b489a65673
+lseg @ git+https://github.com/krrish94/lseg-minimal@e4cbb04b05d1a6d926e1592a3997a3e21c35b326
+black
+click
+imageio
+ipdb
+ipykernel
+ipython
+open_clip_torch==2.26.1
+torch==2.1.2+cu118
+torchvision==0.16.2+cu118
+pytransform3d
+pycolmap

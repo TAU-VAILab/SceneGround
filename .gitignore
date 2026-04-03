@@ -1,0 +1,7 @@
+datasets
+local
+transforms
+outputs
+registrations_output
+*.tar.gz
+*.pyc
